@@ -1,16 +1,14 @@
 const express = require('express');
-
+const middleware = require('../middleware');
 const router = express.Router({ mergeParams: true });
 
 const Comment = require('../models/comments');
 const Element = require('../models/element');
 const User = require('../models/user');
 
-function isLoggedIn(req, res, next) {
-  return req.isAuthenticated() ? next() : res.redirect('/login');
-}
 
-router.post('/comment', isLoggedIn, (req, res) => {
+
+router.post('/comment', middleware.isLoggedIn, (req, res) => {
   async function handleNewComment(elementID, newComment) {
     try {
       const [addedComment, retrievedElement, retrievedUser] = await Promise.all([
@@ -30,18 +28,19 @@ router.post('/comment', isLoggedIn, (req, res) => {
     }
   }
 
-  const newComment = new Comment(req.body.comment);
-  const elementID = req.params.id;
-
-  handleNewComment(elementID, newComment)
+  handleNewComment(req.params.id, new Comment(req.body.comment))
     .then((result) => {
-      result === 'Success'
-        ? res.redirect(`/elements/${elementID}`)
-        : res.render('index', { message: result, breadcrumbs: req.breadcrumbs() });
+      if (result === 'Success') {
+        req.flash('success', 'Comment added');
+        res.redirect(`/elements/${req.params.id}`);
+	  } else {
+        req.flash('error', result);
+        res.redirect('back');
+	  }
     });
 });
 
-router.post('/comment/:commentId/remove', isLoggedIn, (req, res) => {
+router.post('/comment/:commentId/remove', middleware.isLoggedIn, (req, res) => {
   async function handleCommentRemoval(elementID, commentID, userID) {
     try {
       const [retrievedUser, retrievedElement, retrievedComment] = await Promise.all([
@@ -64,11 +63,16 @@ router.post('/comment/:commentId/remove', isLoggedIn, (req, res) => {
       return err;
     }
   }
+
   handleCommentRemoval(req.params.id, req.params.commentId, req.user._id)
     .then((result) => {
-      result === 'Success'
-        ? res.redirect(`/elements/${req.params.id}`)
-        : res.render('index', { message: result, breadcrumbs: req.breadcrumbs() });
+      if (result === 'Success') {
+        req.flash('success', 'Comment has been removed');
+        res.redirect(`/elements/${req.params.id}`);
+	  } else {
+        req.flash('error', result);
+        res.render('index', { message: result, breadcrumbs: req.breadcrumbs() });
+	  } 
     });
 });
 

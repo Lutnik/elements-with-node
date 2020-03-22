@@ -38,3 +38,19 @@
 			<% } %>
 		</div>
 	</nav> 
+	
+<% if (flashError.length > 0) { %>
+<div class="row mx-2 px-2">
+	<div class="alert alert-danger mx-2 px-2" role="alert">
+		<%= flashError %>
+	</div>
+</div>
+<% } %>
+	
+<% if (flashSuccess.length > 0) { %>
+<div class="row mx-2 px-2">
+	<div class="alert alert-success mx-2 px-2" role="alert">
+		<%= flashSuccess %>
+	</div>
+</div>
+<% } %>

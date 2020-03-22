@@ -6,14 +6,12 @@ const passport = require('passport');
 const User = require('../models/user');
 
 router.get('/', (req, res) => {
-  res.render('index', { breadcrumbs: req.breadcrumbs() });
+  res.render('index');
 });
-
-// AUTH ROUTES
 
 router.get('/register', (req, res) => {
   req.breadcrumbs('Register');
-  res.render('register', { breadcrumbs: req.breadcrumbs() });
+  res.render('register');
 });
 
 router.post('/register', (req, res) => {
@@ -24,33 +22,31 @@ router.post('/register', (req, res) => {
   User.register(newUser, req.body.password)
     .then(() => {
       passport.authenticate('local')(req, res, () => {
-        res.redirect('/elements');
+        req.flash('success', 'Thank you for registering! You can now add new elements and comments.');
+        res.redirect(req.body.path);
       });
     })
     .catch((err) => {
-      console.log(err);
-      res.render('index', { message: err, breadcrumbs: req.breadcrumbs() });
+      req.flash('error', err);
+      res.redirect('/');
     });
 });
 
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user) => {
     if (err) {
-      return res.render('index', {
-        message: 'Login error',
-        breadcrumbs: req.breadcrumbs(),
-      });
+      req.flash('error', 'Login issues - please try again later');
+      return res.redirect(req.body.path);
     }
     if (!user) {
-      return res.render('index', {
-        message: 'Username / password error',
-        breadcrumbs: req.breadcrumbs(),
-      });
+      req.flash('error', 'Invalid username or password');
+      return res.redirect(req.body.path);
     }
     req.logIn(user, (error) => {
       if (error) {
         return next(error);
       }
+      req.flash('success', `You have successfully logged in, ${user.username}`);
       return res.redirect(req.body.path === '/logout' ? '/' : req.body.path);
     });
   })(req, res, next);
@@ -58,18 +54,13 @@ router.post('/login', (req, res, next) => {
 
 router.get('/logout', (req, res) => {
   req.logout();
-  req.session.destroy(() => res.render('index', {
-    message: 'You have successfully logged out',
-    breadcrumbs: req.breadcrumbs(),
-    currentUser: req.user,
-  }));
+  req.flash('success', 'You have successfully logged out');
+  res.redirect('/');
 });
 
 router.get('*', (req, res) => {
-  res.render('index', {
-    message: 'Ooops! Wrong path!',
-    breadcrumbs: req.breadcrumbs(),
-  });
+  req.flash('error', 'Ooops! Wrong path!');
+  res.redirect('/');
 });
 
 module.exports = router;
