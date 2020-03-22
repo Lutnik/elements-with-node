@@ -1,0 +1,40 @@
+<!DOCTYPE html>	
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>YELP CAMP</title>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/styles/style.css">
+	</head>
+	
+<body>
+	
+	<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+	    </button>
+		<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+			<% if (!currentUser) { %>
+			<form class="form-inline" action="/login" method="post">
+				<input type="text" class="form-control mr-2" placeholder="Username" name="username" aria-label="username">
+				<input type="text" class="form-control mr-2 d-none" placeholder="<%= currentPage %>" name="path" value="<%= currentPage %>" aria-label="path">
+				<input type="password" class="form-control mr-2" placeholder="Password" name="password" aria-label="Password">
+				<button class="btn btn-outline-success my-2 mr-1" type="submit">Login</button>
+			</form>
+			<span class="navbar-text">
+			  ...or register:
+			</span>
+			<a class="btn btn-outline-success my-2 mx-1" href="/register"> 
+				Register </a> 
+			<% } else { %>
+			<span class="navbar-text mx-3"> Welcome,  
+				<a class="text-success" href="/user/details"><%= currentUser.username %> </a>
+			</span>
+			<a class="btn btn-outline-success my-2 mx-1" href="/logout"> 
+				Logout </a>
+			<% } %>
+		</div>
+	</nav> 

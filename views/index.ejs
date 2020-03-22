@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+
+<% if (typeof message != 'undefined' && message !== null ) { %>
+<div class="row mx-2 px-2 float-right">
+	<div class="alert mx-2 px-2<% if (message[0] == "Y") { %> alert-success <% } else { %> alert-danger <% } %>" role="alert">
+		<%= message %>
+	</div>
+</div>
+<% } %>
+
+<div class="jumbotron">
+	<h1 class="text-center">
+		Welcome!
+	</h1>
+</div>
+
+<div class="m-5">
+	<a href="/elements">Check out the elements:</a>
+</div>
+
+
+
+
+<%- include('partials/footer') %>

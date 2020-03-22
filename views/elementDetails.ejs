@@ -1,0 +1,82 @@
+<%- include('partials/header') %>
+
+<div class="jumbotron">
+	<h1 class="text-center"> Details: </h1>
+</div>
+
+<div class="container">
+	<div class="row my-5">
+		<div class="col border border-light">
+			<img class="img-fluid" src="<%= element.link %>">
+		</div>
+
+		<div class="col">
+			<div class="row">
+				<div class="col">
+					<h3>
+						<%= element.name %>
+					</h3>
+					<h6>
+						Uploaded: <%= element.user.username || 'Unknown' %>
+					</h6>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<%= element.description %>
+				</div>
+			</div>	
+		</div>
+	</div>		
+</div>
+
+<div class="container bg-light p-5">
+	<% for(let com of element.comments) { %>
+		<div class="row my-4 py-2 border-bottom justify-content-between">
+			<div class="col">
+				<h5>
+					<%= com.author %>
+				</h5>
+				<%= com.text %>
+			</div>
+			<% if (com.author === user.username) { %>
+			<div class="col-1">
+				<form action="/elements/<%= element._id %>/comment/<%= com._id %>/remove" method="POST">
+					<button type="submit" class="close" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				</form>
+			</div>	
+			<% } %>
+		</div>
+	<% } %>
+</div>
+<% if (currentUser) { %>
+<div class="container">
+	<div class="row m-5">
+		<div class="col-5">
+			<form action="/elements/<%= element._id %>/comment" method="post">
+				<div class="form-group">
+					<label for="newComment"> NEW COMMENT:</label>
+					<textarea class="form-control" name="comment[text]" value="" id="newComment">  </textarea>
+				</div>
+				<div class="form-group">
+					<label for="commentName">Author</label>
+					<input type="text" class="form-control" name="comment[author]" value="<%= currentUser.username %>" id="commentName" placeholder="<%= currentUser.username %>" readonly>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-outline-success">Add</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<% } else { %>
+<div class="jumbotron">
+	<h4 class="text-center mt-4 mb-0">
+		You need to be signed in to add comments
+	</h4>
+</div>
+<% } %>
+
+<%- include('partials/footer') %>

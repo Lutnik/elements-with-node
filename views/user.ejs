@@ -1,0 +1,55 @@
+<%- include('partials/header') %>
+<div class="jumbotron">
+	<h1 class="text-center">
+		Edit your account
+	</h1>
+</div>
+
+<% if (typeof message != 'undefined') { %>
+<div class="row p-3">
+	<div class="alert <% if (message[0] == "U") { %> alert-success <% } else { %> alert-danger <% } %> m-5" role="alert">
+		<%= message %>
+	</div>
+</div>
+<% } %>
+
+<div class="row">
+	<div class="col-3 m-5">
+		<form action="/user" method="POST">
+			<div class="form-group">
+				<input type="text" class="form-control" name="username" placeholder="<%= user.username %>" readonly>
+			</div>
+			<div class="form-group">
+				<textarea class="form-control" name="description"><%= user.description %></textarea>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-outline-success" > Update </button>
+			</div>
+		</form>
+		
+	</div>
+	
+	<div class="col-3 m-5">
+		<form action="/user/passwordUpdate" method="POST">
+			<div class="form-group">
+				<input type="password" class="form-control" name="currentPassword" placeholder="Current password">
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control" name="newPassword" placeholder="New password">
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-outline-success" > Change password </button>
+			</div>
+			
+		</form> 
+	</div>
+</div>
+
+<div class="row">
+	<ul>
+		<% for (let comment of user.comments) { %>
+			<li> <%= comment %> </li>
+		<% } %>
+	</ul>
+</div>
+<%- include('partials/footer') %>
