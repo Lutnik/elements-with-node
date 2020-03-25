@@ -1,18 +1,24 @@
 <%- include('partials/header') %>
-<div class="jumbotron">
-	<h1 class="text-center">
+<div class="container">
+	<h1 class="text-center text-white">
 		Edit your account
 	</h1>
 </div>
 
-<div class="row">
-	<div class="col-3 m-5">
-		<form action="/user" method="POST">
+<div class="row justify-content-around">
+	<div class="align-self-end col-4 col-lg-3 m-3 p-0 text-white">
+		<form action="/user/details" method="POST">
 			<div class="form-group">
+				<label for="username">Username</label>
 				<input type="text" class="form-control" name="username" placeholder="<%= user.username %>" readonly>
 			</div>
 			<div class="form-group">
-				<textarea class="form-control" name="description"><%= user.description %></textarea>
+				<label for="email">Email</label>
+				<input type="email" class="form-control" name="email" placeholder="<%= user.email %>" value="<%= user.email %>" required>
+			</div>
+			<div class="form-group">
+				<label for="description">About you</label>
+				<textarea class="form-control" name="description" rows="3"><%= user.description %></textarea>
 			</div>
 			<div class="form-group">
 				<button type="submit" class="btn btn-outline-success" > Update </button>
@@ -21,13 +27,15 @@
 		
 	</div>
 	
-	<div class="col-3 m-5">
+	<div class="text-white align-self-end col-4 col-lg-3 m-3 p-0">
 		<form action="/user/passwordUpdate" method="POST">
 			<div class="form-group">
-				<input type="password" class="form-control" name="currentPassword" placeholder="Current password">
+				<label for="currentPassword">Confirm your current Password</label>
+				<input type="password" class="form-control" name="currentPassword">
 			</div>
 			<div class="form-group">
-				<input type="password" class="form-control" name="newPassword" placeholder="New password">
+				<label for="newPassword">Update Password</label>
+				<input type="password" class="form-control" name="newPassword">
 			</div>
 			<div class="form-group">
 				<button type="submit" class="btn btn-outline-success" > Change password </button>
@@ -40,7 +48,7 @@
 <div class="row">
 	<ul>
 		<% for (let comment of user.comments) { %>
-			<li> <%= comment %> </li>
+			<li class="text-white m-5"> <%= comment %> </li>
 		<% } %>
 	</ul>
 </div>

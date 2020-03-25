@@ -35,17 +35,27 @@ router.get('/:id', (req, res) => {
     { name: 'Details', url: `/elements/${req.params.id}` },
   );
   Element.findById(req.params.id)
-    .populate('comments')
-    .exec((err, element) => {
-      if (err) {
-        req.flash('error', err);
-        res.redirect('back');
+	.then((element) => {
+      if (!element) {
+        req.flash('error', 'Invalid element ID');
+        return res.redirect('/elements');
       } else {
-        res.render('elementDetails', {
-          element,
-          user: req.user || '',
+        element.populate('comments', (err, user) => {
+          if (err) {
+            req.flash('error', err.message);
+            res.redirect('/elements');
+          } else {
+            res.render('elementDetails', {
+                element,
+                user: req.user || '',
+            });
+          }
         });
-      }
+	  }
+    })
+    .catch(err => {
+      req.flash('error', 'Invalid element ID');
+      res.redirect('/elements');
     });
 });
 

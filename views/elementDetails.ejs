@@ -1,28 +1,24 @@
 <%- include('partials/header') %>
 
-<div class="jumbotron">
-	<h1 class="text-center"> Details: </h1>
-</div>
-
 <div class="container">
 	<div class="row my-5">
-		<div class="col border border-light">
+		<div class="col">
 			<img class="img-fluid" src="<%= element.link %>">
 		</div>
 
 		<div class="col">
 			<div class="row">
 				<div class="col">
-					<h3 class="border-bottom">
+					<h3 class="border-secondary border-bottom text-white">
 						<%= element.name %>
 					</h3>
-					<h6 class="border-bottom">
+					<h6 class="border-secondary border-bottom text-light">
 						Uploaded: <%= element.user.username || 'Unknown' %>
 					</h6>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">
+				<div class="col text-white">
 					<%= element.description %>
 				</div>
 			</div>	
@@ -30,11 +26,12 @@
 	</div>		
 </div>
 
-<div class="container bg-light p-5">
+<% if (element.comments.length > 0) { %>
+<div class="container bg-light p-5 border rounded">
 	<% for(let com of element.comments) { %>
-		<div class="row my-4 py-2 border-bottom justify-content-between">
-			<div class="col">
-				<h5>
+		<div class="row my-1 py-1 border-bottom justify-content-between">
+			<div class="col pb-1">
+				<h5 class="pb-1">
 					<%= com.author %>
 				</h5>
 				<%= com.text %>
@@ -51,10 +48,11 @@
 		</div>
 	<% } %>
 </div>
+<% } %>
 <% if (currentUser) { %>
 <div class="container">
 	<div class="row m-5">
-		<div class="col-5">
+		<div class="col col-md-8 col-lg-5 text-white">
 			<form action="/elements/<%= element._id %>/comment" method="post">
 				<div class="form-group">
 					<label for="newComment"> NEW COMMENT:</label>
@@ -72,8 +70,8 @@
 	</div>
 </div>
 <% } else { %>
-<div class="jumbotron">
-	<h4 class="text-center mt-4 mb-0">
+<div class="container">
+	<h4 class="text-center my-4 text-warning">
 		You need to be signed in to add comments
 	</h4>
 </div>

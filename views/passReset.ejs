@@ -1,0 +1,32 @@
+<%- include('partials/header') %>
+
+<div class="container text-white">
+	<h1 class="text-center m-5">
+		Password update
+	</h1>	
+	<h5 class="text-center">
+		Your password has been successfully reset. Please provide a new one:
+	</h5>
+</div>
+<div class="text-white container d-flex justify-content-center">
+	<div class="col-9 col-sm-8 col-md-6 col-lg-4 m-5">
+		<form action="/user/forgot/passwordUpdate" method="POST">
+			<div class="form-group">
+				<input type="text" class="form-control d-none" name="username" value="<%= user.username %>">
+			</div>
+			<div class="form-group">
+				<label for="password">New Password</label>
+				<input type="password" class="form-control" name="password">
+			</div>
+			<div class="form-group">
+				<label for="newPasswordConfirm">Confirm Password</label>
+				<input type="password" class="form-control" name="newPasswordConfirm">
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-outline-success" > Change password </button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,10 +1,9 @@
-<nav aria-label="breadcrumb sticky-bottom">
+<nav aria-label="breadcrumb" class="sticky-bottom">
 	<ol class="breadcrumb">
 		<% for (breadcrumb of breadcrumbs) { %>
-		<li class="breadcrumb-item"> <a href="<%= breadcrumb.url %>"> <%= breadcrumb.name %> </a> </li>
+		<li class="breadcrumb-item"> <a class="text-success" href="<%= breadcrumb.url %>"> <%= breadcrumb.name %> </a> </li>
 		<% } %>
 	</ol>
-	<%= currentPage %>
 </nav>
 
 </body>

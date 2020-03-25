@@ -14,8 +14,8 @@ const User = require('./models/user');
 
 const elementsRoutes = require('./routes/elements');
 const commentsRoutes = require('./routes/comments');
-const authRoutes = require('./routes/index');
-const userPage = require('./routes/user');
+const indexRoutes = require('./routes/index');
+const userRoutes = require('./routes/user');
 const expressSessionKey = require('./expressSession');
 
 // DATABASE CONFIG AND CONNECT
@@ -71,7 +71,7 @@ app.use((req, res, next) => {
 // ROUTES
 app.use('/elements', elementsRoutes);
 app.use('/elements/:id', commentsRoutes);
-app.use(userPage);
-app.use(authRoutes);
+app.use('/user', userRoutes);
+app.use(indexRoutes);
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));

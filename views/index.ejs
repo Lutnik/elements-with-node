@@ -1,16 +1,22 @@
 <%- include('partials/header') %>
 
-<div class="jumbotron">
-	<h1 class="text-center">
+<div class="container">
+	<h1 class="text-center text-white m-5">
 		Welcome!
 	</h1>
 </div>
 
-<div class="m-5">
-	<a href="/elements">Check out the elements:</a>
+<div class="m-5 d-flex justify-content-center">
+	<a class="btn btn-lg btn-outline-success w-25" href="/elements">Check out the elements</a>
 </div>
 
+<nav aria-label="breadcrumb" class="fixed-bottom">
+	<ol class="breadcrumb">
+		<% for (breadcrumb of breadcrumbs) { %>
+		<li class="breadcrumb-item"> <a class="text-success" href="<%= breadcrumb.url %>"> <%= breadcrumb.name %> </a> </li>
+		<% } %>
+	</ol>
+</nav>
 
-
-
-<%- include('partials/footer') %>
+</body>
+</html>

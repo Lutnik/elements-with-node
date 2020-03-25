@@ -1,31 +1,27 @@
 <%- include('partials/header') %>
-<div class="jumbotron">
-	<h1 class="text-center">
-		Welcome!
-	</h1>
-</div>
-	<hr class="mt-2 mb-5">
-	
+
+<div class="container-flex m-4">
 	<div class="row text-center">
-		<% elements.forEach(el => { %>		
-			<div class="col-lg-3 col-md-4 col-6">
-				<a href="/elements/<%= el._id %>">
-				<div class="d-block mb-4 h-100"> 
-					 <%= el.name %> 
-					<img class="img-fluid img-thumbnail" src="<%= el.link %>">
-				</div>
-				</a>
+	<% elements.forEach(el => { %>		
+		<div class="col-lg-3 col-md-4 col-6">
+			<a href="/elements/<%= el._id %>">
+			<div class="d-block mb-4 h-100 text-success"> 
+				 <%= el.name %> 
+				<img class="img-fluid img-thumbnail m-1" src="<%= el.link %>">
 			</div>
-		<% }) %>
-		
-	</div>
-<% if (currentUser) { %>
-<div class="jumbotron">
-	<h2 class="text-center mt-4 mb-0">
-		Add a new element:
-	</h2>
+			</a>
+		</div>
+	<% }) %>
+	</div>	
 </div>
-<div class="col-4 m-5">
+
+<% if (currentUser) { %>
+<div class="container">
+	<h4 class="text-center my-4 text-warning">
+		Add a new element:
+	</h4>
+</div>
+<div class="col-10 col-md-8 col-lg-5 m-5 text-white">
 	<form action="/elements" method="post">
 		<div class="form-group">
 			<label for="nameInput">Name</label>
@@ -45,9 +41,9 @@
 	</form>
 </div>
 <% } else { %>
-<div class="jumbotron">
-	<h4 class="text-center mt-4 mb-0">
-		You need to be signed in to add new elements
+<div class="container">
+	<h4 class="text-center my-4 text-warning">
+		You need to be signed in to add comments
 	</h4>
 </div>
 <% } %>
