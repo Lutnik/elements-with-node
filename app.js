@@ -7,6 +7,7 @@ const breadcrumbs = require('express-breadcrumbs');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const expressSession = require('express-session');
+const mongoSanitize = require('express-mongo-sanitize');
 const app = express();
 const port = 3000;
 
@@ -58,6 +59,9 @@ app.use(breadcrumbs.init());
 app.use('/', breadcrumbs.setHome({
   name: 'Home',
   url: '/'
+}));
+app.use(mongoSanitize({
+  replaceWith: '_'
 }));
 app.use((req, res, next) => {
 	res.locals.currentUser = req.user;

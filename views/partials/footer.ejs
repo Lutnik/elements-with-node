@@ -1,7 +1,12 @@
 <nav aria-label="breadcrumb" class="sticky-bottom">
 	<ol class="breadcrumb">
-		<% for (breadcrumb of breadcrumbs) { %>
-		<li class="breadcrumb-item"> <a class="text-success" href="<%= breadcrumb.url %>"> <%= breadcrumb.name %> </a> </li>
+    <% for(let index = 0; index < breadcrumbs.length; index++) { %>
+      <% if (index === breadcrumbs.length - 1) { %>
+        <li class="breadcrumb-item active text-white-50
+                   " aria-current="page"> <%= breadcrumbs[index].name %> </li>
+      <% } else { %>
+        <li class="breadcrumb-item"> <a class="text-success" href="<%= breadcrumbs[index].url %>"> <%= breadcrumbs[index].name %> </a> </li>
+      <% } %>
 		<% } %>
 	</ol>
 </nav>

@@ -6,3 +6,7 @@ body {
 nav, nav ol {
 	background-color: transparent !important;
 }
+
+.breadcrumb-item + .breadcrumb-item::before {
+  color: #ffffff;
+}

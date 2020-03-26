@@ -20,6 +20,7 @@
     "ejs-lint": "^1.0.1",
     "express": "^4.17.1",
     "express-breadcrumbs": "0.0.2",
+    "express-mongo-sanitize": "^2.0.0",
     "express-session": "^1.17.0",
     "express-validator": "^6.4.0",
     "mongoose": "^5.9.3",
