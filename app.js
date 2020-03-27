@@ -36,7 +36,7 @@ db.once('open', () => console.log('Connection to the database established'));
 
 // PASSPORT CONFIG
 app.use(expressSession({
-  secret: process.env.DATABASESECRET,
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
 }));
