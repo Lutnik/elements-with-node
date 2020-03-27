@@ -1,0 +1,29 @@
+[33mcommit a906d18d985fec3eb3e9ba2c248f3958c41a6d05[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Lutnik <hubert.mazurkiewicz@gmail.com>
+Date:   Thu Mar 26 10:48:04 2020 +0000
+
+    add input and mongo validation, UI breadcrumbs and responsive changes
+
+[33mcommit 625666f933a696d121f97a619734aeca8bf7fb74[m
+Author: Lutnik <hubert.mazurkiewicz@gmail.com>
+Date:   Wed Mar 25 09:52:55 2020 +0000
+
+    Change to dark UI, responsive improvements, change user db model and add password reset via emails
+
+[33mcommit 19af898a832e2fd700b6a97301b70433d7ff4b3e[m
+Author: Lutnik <hubert.mazurkiewicz@gmail.com>
+Date:   Sun Mar 22 22:26:35 2020 +0000
+
+    add flash comments and move middleware to separate file
+
+[33mcommit 57e66809693a952f250bec348a65999260da6274[m
+Author: Lutnik <hubert.mazurkiewicz@gmail.com>
+Date:   Sun Mar 22 22:25:39 2020 +0000
+
+    add flash comments and move middleware to separate file
+
+[33mcommit ca60f1c68b020807559781accaf9cc17b555f496[m
+Author: Lutnik <hubert.mazurkiewicz@gmail.com>
+Date:   Sun Mar 22 13:36:02 2020 +0000
+
+    Initial commit

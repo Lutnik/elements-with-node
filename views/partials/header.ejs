@@ -11,13 +11,14 @@
 	</head>
 	
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark justify-content-end">
+  <% if (!currentUser) { %>
+	<nav class="navbar navbar-expand-sm navbar-dark justify-content-end">
 		<button class="navbar-toggler btn-success" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
-	    </button>
+	  </button>
 		<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-			<% if (!currentUser) { %>
-			<ul class="navbar-nav">
+			
+			<ul class="navbar-nav" style="display: inline-block;">
 			  <li class="nav-item dropdown">
 				<button class="text-white dropdown-toggle btn btn-success my-2 mx-1" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				  Login
@@ -34,27 +35,27 @@
 					<a class="nav-link text-success px-0" href="/user/forgot">Forgotten password?</a>
 				</div>
 			  </li>
-
 			</ul>
 
-			<span class="navbar-text text-white p-2">
+			<span class="navbar-text text-white p-1">
 			  ...or register:
 			</span>
-			<a class="btn btn-success my-2 mx-1" href="/user/register"> 
+			<a class="btn btn-success" href="/user/register"> 
 				Register </a> 
-			<% } else { %>
-			<span class="navbar-text mx-3 text-white"> Welcome,  
-				<a class="text-success" href="/user/details"><%= currentUser.username %> </a>
-			</span>
-			<a class="btn btn-success my-2 mx-1" href="/logout"> 
-				Logout </a>
-			<% } %>
-		</div>
+    </div>
 	</nav> 
-	
+<% } else { %>
+  <nav class="navbar navbar-dark justify-content-end">
+		<span class="navbar-text mx-3 text-white"> Welcome,  
+			<a class="text-success" href="/user/details"><%= currentUser.username %> </a>
+		</span>
+			<a class="btn btn-success my-2 mx-1" href="/logout"> Logout </a>
+	</nav> 
+<% } %>
+
 <% if (flashError.length > 0) { %>
 <div class="row mt-3 px-2 d-flex justify-content-center">
-	<div class="alert alert-danger px-2 w-75 align-middle" role="alert">
+	<div class="alert alert-danger px-2 w-75 text-center" role="alert">
 		<%= flashError %>
 	</div>
 </div>

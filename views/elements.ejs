@@ -1,6 +1,21 @@
 <%- include('partials/header') %>
 
-<div class="container-flex m-4">
+<div class="container my-3">
+  <div class="col col-sm-8 col-md-6 col-lg-5 col-xl-4 text-white">
+    <form id="elementSearchForm" action="/elements" method="GET">
+      <div class="form-group">
+        <label for="search">Search for an element:</label>
+        <input type="text" class="form-control" name="search">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-outline-success mr-5 w-25">Search</button>
+        <button type="button" id="clear" class="btn btn-outline-success w-25">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="container my-4">
 	<div class="row text-center">
 	<% elements.forEach(el => { %>		
 		<div class="col-lg-3 col-md-4 col-6">
@@ -17,29 +32,31 @@
 
 <% if (currentUser) { %>
 <div class="container">
-	<h4 class="text-center my-4 text-warning">
-		Add a new element:
-	</h4>
+  <div class="col col-sm-8 col-md-6 col-lg-5 col-xl-4 text-white">
+    <h4 class="text-center my-4 text-warning">
+      Add a new element:
+    </h4>
+    <form action="/elements" method="post">
+      <div class="form-group">
+        <label for="nameInput">Name</label>
+        <input type="text" class="form-control" name="element[name]" placeholder="Enter name" value="" id="nameInput">
+      </div>
+      <div class="form-group">
+        <label for="linkInput">Link</label>
+        <input type="text" class="form-control" name="element[link]" placeholder="Enter link" value="" id="linkInput">
+      </div>
+      <div class="form-group">
+        <label for="desc">Description</label>
+        <input type="text" class="form-control" name="element[description]" placeholder="Enter description" value="" id="detailsInput">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-outline-success w-25">Add</button>
+      </div>
+    </form>
+  </div>
 </div>
-<div class="col-10 col-md-8 col-lg-5 m-5 text-white">
-	<form action="/elements" method="post">
-		<div class="form-group">
-			<label for="nameInput">Name</label>
-			<input type="text" class="form-control" name="element[name]" placeholder="Enter name" value="" id="nameInput">
-		</div>
-		<div class="form-group">
-			<label for="linkInput">Link</label>
-			<input type="text" class="form-control" name="element[link]" placeholder="Enter link" value="" id="linkInput">
-		</div>
-		<div class="form-group">
-			<label for="desc">Description</label>
-			<input type="text" class="form-control" name="element[description]" placeholder="Enter description" value="" id="detailsInput">
-		</div>
-		<div class="form-group">
-			<button type="submit" class="btn btn-outline-success">Add</button>
-		</div>
-	</form>
-</div>
+
+
 <% } else { %>
 <div class="container">
 	<h4 class="text-center my-4 text-warning">
@@ -47,5 +64,12 @@
 	</h4>
 </div>
 <% } %>
-
+<script>
+  const clearButton = document.querySelector("#clear");
+  const searchForm = document.querySelector("#elementSearchForm");
+  clearButton.addEventListener('click', () => {
+    searchForm.reset();
+    searchForm.submit();
+  });
+</script>
 <%- include('partials/footer') %>

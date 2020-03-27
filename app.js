@@ -8,8 +8,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const expressSession = require('express-session');
 const mongoSanitize = require('express-mongo-sanitize');
-const app = express();
-const port = 3000;
 
 const User = require('./models/user');
 
@@ -17,7 +15,8 @@ const elementsRoutes = require('./routes/elements');
 const commentsRoutes = require('./routes/comments');
 const indexRoutes = require('./routes/index');
 const userRoutes = require('./routes/user');
-const expressSessionKey = require('./expressSession');
+
+const app = express();
 
 // DATABASE CONFIG AND CONNECT
 mongoose.set('useNewUrlParser', true);
@@ -25,23 +24,21 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-mongoose.connect('mongodb://localhost/elements', { 
+mongoose.connect(process.env.DATABASEURL, {
   socketTimeoutMS: 10000,
   connectTimeoutMS: 10000,
-  keepAlive: true, 
+  keepAlive: true,
 })
-  .catch(err => console.error(err));
+  .catch((err) => console.error(err));
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  console.log('Connection to the database established');
-});
+db.once('open', () => console.log('Connection to the database established'));
 
 // PASSPORT CONFIG
 app.use(expressSession({
-	secret: expressSessionKey,
-	resave: false,
-	saveUninitialized: false,
+  secret: process.env.DATABASESECRET,
+  resave: false,
+  saveUninitialized: false,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -58,18 +55,18 @@ app.use(flash());
 app.use(breadcrumbs.init());
 app.use('/', breadcrumbs.setHome({
   name: 'Home',
-  url: '/'
+  url: '/',
 }));
 app.use(mongoSanitize({
-  replaceWith: '_'
+  replaceWith: '_',
 }));
 app.use((req, res, next) => {
-	res.locals.currentUser = req.user;
-	res.locals.currentPage = req.originalUrl;
-	res.locals.breadcrumbs = req.breadcrumbs();
-	res.locals.flashError = req.flash('error');
-	res.locals.flashSuccess = req.flash('success');
-	next();
+  res.locals.currentUser = req.user;
+  res.locals.currentPage = req.originalUrl;
+  res.locals.breadcrumbs = req.breadcrumbs();
+  res.locals.flashError = req.flash('error');
+  res.locals.flashSuccess = req.flash('success');
+  next();
 });
 
 // ROUTES
@@ -78,4 +75,4 @@ app.use('/elements/:id', commentsRoutes);
 app.use('/user', userRoutes);
 app.use(indexRoutes);
 
-app.listen(port, () => console.log(`Server is running on port ${port}`));
+app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}`));

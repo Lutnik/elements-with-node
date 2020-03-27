@@ -27,7 +27,7 @@
 </div>
 
 <% if (element.comments.length > 0) { %>
-<div class="container bg-light p-5 border rounded">
+<div class="container bg-light border rounded">
 	<% for(let com of element.comments) { %>
 		<div class="row my-1 py-1 border-bottom justify-content-between">
 			<div class="col pb-1">
@@ -51,23 +51,25 @@
 <% } %>
 <% if (currentUser) { %>
 <div class="container">
-	<div class="row m-5">
-		<div class="col col-md-8 col-lg-5 text-white">
-			<form action="/elements/<%= element._id %>/comment" method="post">
-				<div class="form-group">
-					<label for="newComment"> NEW COMMENT:</label>
-					<textarea class="form-control" name="comment[text]" value="" id="newComment"></textarea>
-				</div>
-				<div class="form-group">
-					<label for="commentName">Author</label>
-					<input type="text" class="form-control" name="comment[author]" value="<%= currentUser.username %>" id="commentName" placeholder="<%= currentUser.username %>" readonly>
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-outline-success">Add</button>
-				</div>
-			</form>
-		</div>
-	</div>
+  <div class="col col-sm-8 col-md-6 col-lg-5 col-xl-4 p-0 text-white">
+    <h4 class="text-center my-4 text-warning">
+    Add a new comment:
+    </h4>
+    <form action="/elements/<%= element._id %>/comment" method="post">
+      <div class="form-group">
+        <label for="newComment"> NEW COMMENT:</label>
+        <textarea class="form-control" name="comment[text]" value="" id="newComment"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="commentName">Author</label>
+        <input type="text" class="form-control" name="comment[author]" value="<%= currentUser.username %>" id="commentName" placeholder="<%= currentUser.username %>" readonly>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-outline-success w-25">Add</button>
+      </div>
+    </form>
+</div>
+
 </div>
 <% } else { %>
 <div class="container">
