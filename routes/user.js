@@ -47,7 +47,6 @@ router.post('/register',
             .trim().escape().isLength({ min: 4, max: 32 }),
   check('password', 'Password must have between 8 and 32 characters and include a number')
             .trim().escape().isLength({ min: 8, max: 32 }).bail().matches(/\d/),
-  check('email', 'Invalid email').isEmail(),
   (req, res) => {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {

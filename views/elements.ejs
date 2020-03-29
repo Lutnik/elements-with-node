@@ -5,7 +5,7 @@
     <form id="elementSearchForm" action="/elements" method="GET">
       <div class="form-group">
         <label for="search">Search for an element:</label>
-        <input type="text" class="form-control" name="search">
+        <input type="text" class="form-control" name="search" id="search">
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-outline-success mr-5 w-25">Search</button>
@@ -36,18 +36,18 @@
     <h4 class="text-center my-4 text-warning">
       Add a new element:
     </h4>
-    <form action="/elements" method="post">
+    <form action="/elements" method="POST" enctype="multipart/form-data">
       <div class="form-group">
         <label for="nameInput">Name</label>
-        <input type="text" class="form-control" name="element[name]" placeholder="Enter name" value="" id="nameInput">
+        <input type="text" class="form-control" name="element[name]" placeholder="Enter name" value="" id="nameInput" required>
       </div>
       <div class="form-group">
-        <label for="linkInput">Link</label>
-        <input type="text" class="form-control" name="element[link]" placeholder="Enter link" value="" id="linkInput">
+        <label for="imageFile">Link</label>
+        <input type="file" class="form-control-file" name="image" accept="image/*" value="" id="imageFile" required>
       </div>
       <div class="form-group">
         <label for="desc">Description</label>
-        <input type="text" class="form-control" name="element[description]" placeholder="Enter description" value="" id="detailsInput">
+        <input type="text" class="form-control" name="element[description]" placeholder="Enter description" value="" id="desc">
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-outline-success w-25">Add</button>

@@ -1,5 +1,4 @@
 const express = require('express');
-// const validator = require('express-validator');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const mongoose = require('mongoose');

@@ -1,4 +1,6 @@
 const express = require('express');
+const cloudinary = require('cloudinary');
+const multer = require('multer');
 
 const router = express.Router({ mergeParams: true });
 const { check, validationResult } = require('express-validator');
@@ -6,6 +8,24 @@ const middleware = require('../middleware');
 const Element = require('../models/element');
 
 const escapeRegex = (string) => string.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+
+const upload = multer({
+  storage: multer.diskStorage({
+    filename(req, file, cb) {
+      cb(null, Date.now() + file.originalname);
+    },
+  }),
+  fileFilter: (req, file, cb) => (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)
+    ? cb(new Error('Only image files are allowed (jpg, gif or png)'), false)
+    : cb(null, true)),
+});
+
+//CLOUDINARY CONFIG
+cloudinary.config({ 
+  cloud_name: process.env.CLOUDINARY_USER, 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: 'rCY0g3OswtzC-BrOI7n-BwZOsZ8',
+});
 
 router.get('/', async (req, res) => {
   try {
@@ -27,29 +47,30 @@ router.get('/', async (req, res) => {
 router.post('/',
   middleware.isLoggedIn,
   check('element[name]').trim().escape(),
-  check('element[link]', 'Invalid link').trim().matches(/^(https?:\/\/|^www).+(jpeg|jpg|png|gif)$/i),
+  upload.single('image'),
   check('element[description]').trim().escape(),
   (req, res) => {
-    const validationErrors = validationResult(req);
-    if (!validationErrors.isEmpty()) {
-      const errMsg = validationErrors.errors.reduce((prev, curr) => 
-                                                  prev.msg + curr.msg, 
-                                                  { msg: 'Please correct the following errors ' }
-                                                 );
-      req.flash('error', errMsg);
-      return res.redirect('/elements');
-    }
-    const newElement = new Element(req.body.element);
-    [newElement.user.id, newElement.user.username] = [req.user._id, req.user.username];
-    newElement.save((err) => {
-      if (err) {
-        req.flash('error', err);
-        return res.render('back');
-      }
-      req.flash('success', 'New element added successfully');
-      return res.redirect('/elements');
-    });
-  });
+    try {
+      cloudinary.uploader.upload(req.file.path, function(result) {
+        const newElement = new Element(req.body.element);
+        [newElement.link, newElement.user.id, newElement.user.username] = [result.secure_url, req.user._id, req.user.username];
+        newElement.save((err) => {
+          if (err) {
+            req.flash('error', err.message);
+            return res.render('back');
+          }
+          req.flash('success', 'New element added successfully');
+          return res.redirect('/elements');
+        });
+      });
+    } catch (error) {
+      req.flash('error', errpr.message);
+      res.redirect('back');
+    }  
+}, function errorHandler(err, req, res, next){
+  req.flash('error', err.message);
+  res.redirect('back');
+});
 
 router.get('/:id', (req, res) => {
   req.breadcrumbs().push(
