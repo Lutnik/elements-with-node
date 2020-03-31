@@ -5,7 +5,7 @@ const middlewareObj = {
       next();
     } else {
       req.flash('error', 'You must be logged in to proceed');
-      res.redirect('back');
+      res.redirect('/');
     }
   },
 };

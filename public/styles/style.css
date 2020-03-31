@@ -10,3 +10,34 @@ nav, nav ol {
 .breadcrumb-item + .breadcrumb-item::before {
   color: #ffffff;
 }
+
+.searchDiv {
+  background-color: #3b3b3b;
+}
+
+#githubLink {
+  position: relative;
+}
+
+#githubLink::after {
+  content: "See the code on Github";
+  display: block;
+  position: absolute;
+  top: 1.7em;
+  left: 0%;
+  background-color: #28a745;
+  padding: 0.5em 1em;
+  color: white;
+  font-size: 0.6em;
+  white-space: nowrap;
+  border-radius: 0.25em;
+  transform: scale(0);
+  transition: 
+    transform ease-out 200ms,
+    left ease-out 200ms;
+}
+
+#githubLink:hover::after {
+  transform: scale(1);
+  left: 100%;
+}

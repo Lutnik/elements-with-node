@@ -24,20 +24,42 @@ const upload = multer({
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_USER, 
   api_key: process.env.CLOUDINARY_API_KEY, 
-  api_secret: 'rCY0g3OswtzC-BrOI7n-BwZOsZ8',
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 router.get('/', async (req, res) => {
   try {
-    let elements;
+    const resultsPerPage = req.query.resultsPerPage < 12 || req.query.resultsPerPage > 24 
+                            ? 12 
+                            : parseInt(req.query.resultsPerPage) || 12;
+    const page = req.query.page || 1;
+    let elements = [];
+    let totalNum = 0;
+    const searchVal = req.query.search;
     if (req.query.search) {
       const search = new RegExp(escapeRegex(req.query.search), 'gi');
-      elements = await Element.find({ name: search });
+      elements = await Element.find({ name: search },
+                                    '_id name link',
+                                    { skip: (resultsPerPage * page) - resultsPerPage,
+                                      limit: resultsPerPage, },
+                                   );
+      totalNum = await Element.countDocuments({ name: search });
     } else {
-      elements = await Element.find();
+      elements = await Element.find({ }, 
+                                    '_id name link',
+                                    { skip: (resultsPerPage * page) - resultsPerPage,
+                                      limit: resultsPerPage, },
+                                   );
+      totalNum = await Element.countDocuments();
     }
     req.breadcrumbs('Elements');
-    return res.render('elements', { elements });
+    return res.render('elements', { elements,
+                                    page,
+                                    pages: Math.ceil(totalNum / resultsPerPage) || 1,
+                                    numOfResults: totalNum,
+                                    searchVal,
+                                    resultsPerPage,
+                                    });
   } catch (err) {
     req.flash('error', err.message);
     return res.redirect('back');
@@ -59,16 +81,16 @@ router.post('/',
             req.flash('error', err.message);
             return res.render('back');
           }
-          req.flash('success', 'New element added successfully');
+          req.flash('success', 'New picture added successfully');
           return res.redirect('/elements');
         });
       });
     } catch (error) {
-      req.flash('error', errpr.message);
+      req.flash('error', error.message);
       res.redirect('back');
     }  
 }, function errorHandler(err, req, res, next){
-  req.flash('error', err.message);
+  req.flash('error', 'Picture upload error');
   res.redirect('back');
 });
 
@@ -80,7 +102,7 @@ router.get('/:id', (req, res) => {
   Element.findById(req.params.id)
     .then((element) => {
       if (!element) {
-        req.flash('error', 'Invalid element ID');
+        req.flash('error', 'Invalid pciture ID');
         return res.redirect('/elements');
       }
       element.populate('comments', (err) => {
@@ -95,7 +117,7 @@ router.get('/:id', (req, res) => {
       });
     })
     .catch((err) => {
-      req.flash('error', `Invalid element ID: ${err.message}`);
+      req.flash('error', 'Invalid picture ID or no image found');
       res.redirect('/elements');
     });
 });
