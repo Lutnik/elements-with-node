@@ -52,26 +52,25 @@
   resultsPerPageDropdown.addEventListener('change', () => searchForm.submit());
 </script>
 
+<% if (searchVal) { %>
 <div class="container">
-  <% if( searchVal) { %>
   <h4 class="text-warning">
     Searching for <%= searchVal %>
     <% if (numOfResults == 0) { %>
     - no results found
     <% } %>
   </h4>
-
 </div>
 
 <% } %>
 <div class="container my-4">
 	<div class="row text-center">
 	<% elements.forEach(el => { %>		
-		<div class="col-lg-3 col-md-4 col-6">
+		<div class="div-gallery col-lg-3 col-md-4 col-6">
 			<a href="/elements/<%= el._id %>">
 			<div class="d-block mb-4 h-100 text-success"> 
-				 <%= el.name %> 
-				<img class="img-fluid img-thumbnail m-1" src="<%= el.link %>">
+        <span class="title-gallery"><%= el.name %> </span>
+				<img class="img-gallery img-fluid img-thumbnail m-1" src="<%= el.link %>">
 			</div>
 			</a>
 		</div>

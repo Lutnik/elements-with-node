@@ -7,6 +7,7 @@ const router = express.Router({ mergeParams: true });
 const passport = require('passport');
 const middleware = require('../middleware');
 const User = require('../models/user');
+const Comment = require('../models/comment');
 const resetEmail = require('../views/email');
 
 router.post('/login',
@@ -44,16 +45,16 @@ router.get('/register', (req, res) => {
 
 router.post('/register',
   check('username', 'Username must have between 4 and 32 characters')
-            .trim().escape().isLength({ min: 4, max: 32 }),
+    .trim().escape().isLength({ min: 4, max: 32 }),
   check('password', 'Password must have between 8 and 32 characters and include a number')
-            .trim().escape().isLength({ min: 8, max: 32 }).bail().matches(/\d/),
+    .trim().escape().isLength({ min: 8, max: 32 })
+    .bail()
+    .matches(/\d/),
   (req, res) => {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
-      const errMsg = validationErrors.errors.reduce((prev, curr) => 
-                                                  prev.msg + curr.msg, 
-                                                  { msg: 'Please correct the following errors ' }
-                                                 );
+      const errMsg = validationErrors.errors.reduce((prev, curr) => prev.msg + curr.msg,
+        { msg: 'Please correct the following errors ' });
       req.flash('error', errMsg);
       return res.redirect('/user/register');
     }
@@ -158,7 +159,7 @@ router.post('/forgot/passwordUpdate',
   check('username').trim().escape(),
   check('email').isEmail(),
   (req, res) => {
-    if (req.body.password != req.body.newPasswordConfirm) {
+    if (req.body.password !== req.body.newPasswordConfirm) {
       req.flash('error', 'Passwords do not match');
       return res.redirect('/');
     }
@@ -192,8 +193,17 @@ router.post('/forgot/passwordUpdate',
   });
 
 router.get('/details', middleware.isLoggedIn, (req, res) => {
-  req.breadcrumbs('User setup');
-  res.render('user', { user: req.user });
+  // get 5 comments of the user
+  Comment.find({ author: req.user.username }).sort({ _id: -1 }).limit(5)
+    .then((comments) => {
+      req.breadcrumbs('User setup');
+      res.render('user', { user: req.user, comments });
+    })
+    .catch((err) => {
+      req.breadcrumbs('User setup');
+      req.flash('error', `Could not load comments: ${err.message}`);
+      res.render('user', { user: req.user, comments: [] });
+    });
 });
 
 router.post('/details', middleware.isLoggedIn, (req, res) => {
@@ -222,30 +232,30 @@ router.post('/details', middleware.isLoggedIn, (req, res) => {
     });
 });
 
-router.post('/passwordUpdate', 
-            middleware.isLoggedIn, 
-            check('newPassword', 'Password must have between 4 and 32 characters and include a number')
-              .trim().escape().isLength({ min: 8, max: 32 }).bail().matches(/\d/),
-            (req, res) => {
-  const validationErrors = validationResult(req);
+router.post('/passwordUpdate',
+  middleware.isLoggedIn,
+  check('newPassword', 'Password must have between 4 and 32 characters and include a number')
+    .trim().escape().isLength({ min: 8, max: 32 })
+    .bail()
+    .matches(/\d/),
+  (req, res) => {
+    const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
-      const errMsg = validationErrors.errors.reduce((prev, curr) => 
-                                                  prev.msg + curr.msg, 
-                                                  { msg: 'Please correct the following error: ' }
-                                                 );
+      const errMsg = validationErrors.errors.reduce((prev, curr) => prev.msg + curr.msg,
+        { msg: 'Please correct the following error: ' });
       req.flash('error', errMsg);
       return res.redirect('/user/details');
     }
-  User.findById(req.user._id)
-    .then((user) => user.changePassword(req.body.currentPassword, req.body.newPassword))
-    .then(() => {
-      req.flash('success', 'Update successful!');
-      return res.redirect('/user/details');
-    })
-    .catch((err) => {
-      req.flash('error', err.message);
-      res.redirect('/user/details');
-    });
-});
+    User.findById(req.user._id)
+      .then((user) => user.changePassword(req.body.currentPassword, req.body.newPassword))
+      .then(() => {
+        req.flash('success', 'Update successful!');
+        return res.redirect('/user/details');
+      })
+      .catch((err) => {
+        req.flash('error', err.message);
+        res.redirect('/user/details');
+      });
+  });
 
 module.exports = router;

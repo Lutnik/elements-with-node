@@ -11,7 +11,7 @@ Users can login and view the elements and comments; once authenticated can add n
 - [x] elements pagination + results per page input
 - [ ] add star rating to elements + rating option for users
 - [ ] elements sorting (name, rating)
-- [ ] display comments links on user page
+- [x] display comments links on user page
 - [ ] add remove option to elements
 - [x] migrate to cloudinary
 - [ ] replace ethereal.email for password resets

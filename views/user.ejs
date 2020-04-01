@@ -50,11 +50,41 @@
 	</div>
 </div>
 
-<div class="row">
-	<ul>
-		<% for (let comment of user.comments) { %>
-			<li class="text-white m-5"> <%= comment %> </li>
-		<% } %>
-	</ul>
+<div class="container mt-5">
+  <div class="row">
+    <h4 class="text-warning">
+      Your recent comments:
+    </h4>  
+  </div>
+  <div class="row">
+      <% for (let comment of comments) { %>
+      <a class="text-success" href="../elements/<%= comment.elementID %>"><%= comment.text %> </a> <br>
+      <% } %>
+  </div>	
 </div>
+
+<div class="container mt-5">
+  <h4 class="text-warning">
+    Your recent comments:
+  </h4>  
+</div>
+<% if (comments.length > 0) { %>
+<div class="container bg-light border rounded">
+	<% for(let comment of comments) { %>
+		<div class="row my-1 py-1 border-bottom justify-content-between">
+			<div class="col pb-1">
+        <a class="" href="../elements/<%= comment.elementID %>"> <%= comment.text %> </a>
+			</div>
+			<div class="col-1">
+				<form action="../elements/<%= comment.elementID %>/comment/<%= comment._id %>/remove" method="POST">
+					<button type="submit" class="close" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				</form>
+			</div>	
+		</div>
+	<% } %>
+</div>
+<% } %>
+
 <%- include('partials/footer') %>

@@ -3,7 +3,7 @@ const cloudinary = require('cloudinary');
 const multer = require('multer');
 
 const router = express.Router({ mergeParams: true });
-const { check, validationResult } = require('express-validator');
+const { check } = require('express-validator');
 const middleware = require('../middleware');
 const Element = require('../models/element');
 
@@ -20,18 +20,18 @@ const upload = multer({
     : cb(null, true)),
 });
 
-//CLOUDINARY CONFIG
-cloudinary.config({ 
-  cloud_name: process.env.CLOUDINARY_USER, 
-  api_key: process.env.CLOUDINARY_API_KEY, 
+// CLOUDINARY CONFIG
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_USER,
+  api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 router.get('/', async (req, res) => {
   try {
-    const resultsPerPage = req.query.resultsPerPage < 12 || req.query.resultsPerPage > 24 
-                            ? 12 
-                            : parseInt(req.query.resultsPerPage) || 12;
+    const resultsPerPage = req.query.resultsPerPage < 12 || req.query.resultsPerPage > 24
+      ? 12
+      : parseInt(req.query.resultsPerPage) || 12;
     const page = req.query.page || 1;
     let elements = [];
     let totalNum = 0;
@@ -39,27 +39,30 @@ router.get('/', async (req, res) => {
     if (req.query.search) {
       const search = new RegExp(escapeRegex(req.query.search), 'gi');
       elements = await Element.find({ name: search },
-                                    '_id name link',
-                                    { skip: (resultsPerPage * page) - resultsPerPage,
-                                      limit: resultsPerPage, },
-                                   );
+        '_id name link',
+        {
+          skip: (resultsPerPage * page) - resultsPerPage,
+          limit: resultsPerPage,
+        });
       totalNum = await Element.countDocuments({ name: search });
     } else {
-      elements = await Element.find({ }, 
-                                    '_id name link',
-                                    { skip: (resultsPerPage * page) - resultsPerPage,
-                                      limit: resultsPerPage, },
-                                   );
+      elements = await Element.find({ },
+        '_id name link',
+        {
+          skip: (resultsPerPage * page) - resultsPerPage,
+          limit: resultsPerPage,
+        });
       totalNum = await Element.countDocuments();
     }
     req.breadcrumbs('Elements');
-    return res.render('elements', { elements,
-                                    page,
-                                    pages: Math.ceil(totalNum / resultsPerPage) || 1,
-                                    numOfResults: totalNum,
-                                    searchVal,
-                                    resultsPerPage,
-                                    });
+    return res.render('elements', {
+      elements,
+      page,
+      pages: Math.ceil(totalNum / resultsPerPage) || 1,
+      numOfResults: totalNum,
+      searchVal,
+      resultsPerPage,
+    });
   } catch (err) {
     req.flash('error', err.message);
     return res.redirect('back');
@@ -73,7 +76,7 @@ router.post('/',
   check('element[description]').trim().escape(),
   (req, res) => {
     try {
-      cloudinary.uploader.upload(req.file.path, function(result) {
+      cloudinary.uploader.upload(req.file.path, (result) => {
         const newElement = new Element(req.body.element);
         [newElement.link, newElement.user.id, newElement.user.username] = [result.secure_url, req.user._id, req.user.username];
         newElement.save((err) => {
@@ -88,11 +91,11 @@ router.post('/',
     } catch (error) {
       req.flash('error', error.message);
       res.redirect('back');
-    }  
-}, function errorHandler(err, req, res, next){
-  req.flash('error', 'Picture upload error');
-  res.redirect('back');
-});
+    }
+  }, (err, req, res) => {
+    req.flash('error', 'Picture upload error');
+    res.redirect('back');
+  });
 
 router.get('/:id', (req, res) => {
   req.breadcrumbs().push(
