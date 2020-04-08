@@ -47,11 +47,6 @@
   </form>
 </div>
 
-<script type="text/javascript">
-  const resultsPerPageDropdown = document.querySelector("#resultsPerPage");
-  resultsPerPageDropdown.addEventListener('change', () => searchForm.submit());
-</script>
-
 <% if (searchVal) { %>
 <div class="container">
   <h4 class="text-warning">
@@ -116,6 +111,10 @@
   const clearButton = document.querySelector("#clear");
   const searchForm = document.querySelector("#elementSearchForm");
   const searchField = document.querySelector("#search");
+  const resultsPerPageDropdown = document.querySelector("#resultsPerPage");
+  
+  resultsPerPageDropdown.addEventListener('change', () => searchForm.submit());
+  
   clearButton.addEventListener('click', () => {
     searchField.value = "";
     searchForm.reset();
