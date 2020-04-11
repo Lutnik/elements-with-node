@@ -3,7 +3,7 @@
 <a href="/elements">
 
 <% if (flashError.length > 0) { %>
-<div class="container-fluid w-75">
+<div class="container-fluid p-0 p-sm-5">
   <img src="https://www.stevensegallery.com/g/800/600" class="d-block w-100">
 </div>
 
@@ -15,8 +15,8 @@
 	</h1>
 </div>
 
-<div class="container-fluid w-75">
-  <div class="carousel slide carousel-fade" data-ride="carousel">
+<div class="container-fluid p-0 px-sm-5">
+  <div class="carousel slide carousel-fade p-0 px-sm-5" data-ride="carousel">
     <div id="carouselLandingPage" class="carousel-inner rounded-lg">
     </div>
   </div>
@@ -34,13 +34,13 @@
   
 </a>
 
-<nav aria-label="breadcrumb" class="fixed-bottom">
+<nav aria-label="breadcrumb" class="sticky-bottom">
 	<ol class="breadcrumb">
 		<% for (breadcrumb of breadcrumbs) { %>
 		<li class="breadcrumb-item"> <a class="text-success" href="<%= breadcrumb.url %>"> <%= breadcrumb.name %> </a> </li>
 		<% } %>
 	</ol>
 </nav>
-
+ 
 </body>
 </html>

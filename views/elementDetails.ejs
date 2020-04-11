@@ -1,33 +1,30 @@
 <%- include('partials/header') %>
 
-<div class="container">
-	<div class="row my-5">
-		<div class="col">
-			<img class="img-fluid" src="<%= element.link %>">
-		</div>
-
-		<div class="col">
-			<div class="row">
-				<div class="col">
-					<h3 class="border-secondary border-bottom text-white">
-						<%= element.name %>
-					</h3>
-					<h6 class="border-secondary border-bottom text-light">
-						Uploaded: <%= element.user.username || 'Unknown' %>
-					</h6>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col text-white">
-					<%= element.description %>
-				</div>
-			</div>	
-		</div>
-	</div>		
+<div class="container-fluid d-flex flex-wrap my-2 my-md-5 px-0 px-md-5">
+  <div class="col-12 col-md-6">
+    <img class="img-fluid" src="<%= element.link %>">
+  </div>
+  <div class="col-12 col-md-6 px-4 py-3 py-md-0">
+    <div class="row">
+      <h3 class="border-secondary border-bottom text-white d-inline-block pb-1">
+      <%= element.name %>
+      </h3>
+    </div>
+    <div class="row">
+      <h6 class="border-secondary border-bottom text-light d-inline-block pb-1">
+        Uploaded: <%= element.user.username || 'Unknown' %>
+      </h6>
+    </div>
+    <div class="row">
+      <span class="text-white">
+        <%= element.description %>
+      </span>
+    </div>	
+  </div>
 </div>
 
 <% if (element.comments.length > 0) { %>
-<div class="container bg-light border rounded">
+<div class="container bg-light border rounded my-0 my-md-5">
 	<% for(let com of element.comments) { %>
 		<div class="row my-1 py-1 border-bottom justify-content-between">
 			<div class="col pb-1">
@@ -52,7 +49,7 @@
 <% if (currentUser) { %>
 <div class="container">
   <div class="col col-sm-8 col-md-6 col-lg-5 col-xl-4 p-0 text-white">
-    <h4 class="text-center my-4 text-warning">
+    <h4 class="text-center mt-4 text-warning">
     Add a new comment:
     </h4>
     <form action="/elements/<%= element._id %>/comment" method="post">
@@ -72,10 +69,10 @@
 
 </div>
 <% } else { %>
-<div class="container">
-	<h4 class="text-center my-4 text-warning">
+<div class="container text-center">
+	<span class="text-warning">
 		You need to be signed in to add comments
-	</h4>
+	</span>
 </div>
 <% } %>
 

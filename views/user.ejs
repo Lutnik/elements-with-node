@@ -1,12 +1,12 @@
 <%- include('partials/header') %>
 <div class="container">
-	<h1 class="text-center text-white">
+	<h2 class="text-center text-warning">
 		Edit your account
-	</h1>
+	</h2>
 </div>
 
-<div class="row justify-content-around">
-	<div class="align-self-end col col-sm-4 col-lg-3 m-3 p-0 text-white">
+<div class="container d-flex text-white justify-content-around flex-wrap">
+	<div class="align-self-end col-12 col-sm-6 col-lg-5 m-md-3 px-1">
 		<form action="/user/details" method="POST">
 			<div class="form-group">
 				<label for="username">Username</label>
@@ -27,9 +27,8 @@
 		</form>
 		
 	</div>
-	
-	<div class="text-white align-self-end col col-sm-4 col-lg-3 m-3 p-0">
-    <h4 class="text-center my-4 text-warning">
+	<div class="align-self-end col-12 col-sm-6 col-lg-5 m-md-3 px-1">
+    <h4 class="text-center mt-4 text-warning">
       Change your password
     </h4>
 		<form action="/user/passwordUpdate" method="POST">
@@ -50,22 +49,9 @@
 	</div>
 </div>
 
-<div class="container mt-5">
-  <div class="row">
-    <h4 class="text-warning">
-      Your recent comments:
-    </h4>  
-  </div>
-  <div class="row">
-      <% for (let comment of comments) { %>
-      <a class="text-success" href="../elements/<%= comment.elementID %>"><%= comment.text %> </a> <br>
-      <% } %>
-  </div>	
-</div>
-
-<div class="container mt-5">
+<div class="container text-center mt-4">
   <h4 class="text-warning">
-    Your recent comments:
+    Your recent comments
   </h4>  
 </div>
 <% if (comments.length > 0) { %>

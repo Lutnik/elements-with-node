@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title>Awesome gallery here</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -12,11 +13,11 @@
 	
 <body>
   <% if (!currentUser) { %>
-	<nav class="navbar navbar-dark justify-content-between">
-    <a id="githubLink" class="navbar-brand" href="https://github.com/Lutnik/elements-with-node" target="new">
+	<nav class="navbar navbar-dark justify-content-between py-0 px-1 pl-sm-2 pr-sm-3">
+    <a id="githubLink" class="navbar-brand m-0" href="https://github.com/Lutnik/elements-with-node" target="new">
       <img class="img-fluid" src="/pic/GitHub-Mark-Light-64px.png" alt="Github"> 
     </a> 
-    <ul class="navbar" style="list-style: none">
+    <ul class="navbar px-0" style="list-style: none">
       <li class="nav-item dropdown">
       <button class="text-white dropdown-toggle btn btn-success my-2 mx-1" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Login
