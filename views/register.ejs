@@ -7,31 +7,72 @@
 </div>
 <div class="container d-flex justify-content-center text-white">
 	<div class="col-9 col-sm-8 col-md-6 col-lg-4 mt-lg-4 mt-2">
-		<form action="/user/register" method="POST">
+		<form id="register" action="/user/register" method="POST">
 			<div class="form-group">
 				<label for="username">Username:</label>
-				<input type="text" class="form-control" name="username" required>
-        <small id="usernameHelp" class="form-text text-white-50"></small>
+				<input type="text" class="form-control" id="username" name="username" required>
+        <small id="usernameHelp" class="form-text"></small>
 			</div>
 			<div class="form-group">
 				<label for="email">Email:</label>
-				<input type="email" class="form-control" name="email" value="">
+				<input type="email" class="form-control" name="email" id="email" value="">
         <small id="emailHelp" class="form-text text-white-50">Optional, for password reset only</small>
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label>
-				<input type="password" class="form-control" name="password" placeholder="password" required>
-        <small id="passwordlHelp" class="form-text text-white-50">Minimum length is 8, must contain a number</small>
+				<input type="password" class="form-control" id="password" name="password" placeholder="password" required>
+        <small id="passwordHelp" class="form-text text-white-50">Minimum length is 8, must contain a number</small>
 			</div>
+      <div class="form-group">
+        <label for="tags"> List the children that you will later tag drawings with </label>
+        
+      </div>
 			<div class="form-group">
 				<label for="description">Something about you:</label>
-				<textarea class="form-control" name="description" placeholder="About you"></textarea>
+				<textarea class="form-control" name="description" id="description" placeholder="About you"></textarea>
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-outline-success" > Register! </button>
+				<button id="submit" type="submit" class="btn btn-outline-success" > Register! </button>
 			</div>
 		</form>
 	</div>
 </div>
-
+<script>
+  const usernameHelp = document.querySelector('#usernameHelp');
+  const usernameInput = document.querySelector('#username');
+  const submit = document.querySelector('#submit');
+  const passwordInput = document.querySelector('#password');
+  const passwordHelp = document.querySelector('#passwordHelp');
+ 
+  usernameInput.addEventListener('focusout', () => {
+    fetch(`/user/checkUsername/${usernameInput.value.trim()}`)
+    .then((res) => res.text())
+    .then((data) => {
+      if (data !== 'OK') {
+        submit.setAttribute('disabled', 'true');
+        usernameHelp.classList.add('text-danger');
+        usernameHelp.classList.remove('text-success');
+        usernameHelp.textContent = 'Username is already in use, please pick another';
+      } else {
+        submit.removeAttribute('disabled');
+        usernameHelp.classList.remove('text-danger');
+        usernameHelp.classList.add('text-success');
+        usernameHelp.textContent = 'Username is okay';  
+      }
+    });
+  });   
+  passwordInput.addEventListener('focusout', () => {
+    if (passwordInput.value.lenght < 8 || !/[0-9]/.test(passwordInput.value)) {
+      passwordHelp.classList.remove('text-white-50');
+      passwordHelp.classList.remove('text-success');
+      passwordHelp.classList.add('text-danger');
+      submit.setAttribute('disabled', 'true');
+    } else {
+      passwordHelp.classList.remove('text-white-50');
+      passwordHelp.classList.remove('text-danger');
+      passwordHelp.classList.add('text-success');
+      submit.removeAttribute('disabled');
+    }
+  });
+</script>
 <%- include('partials/footer') %>

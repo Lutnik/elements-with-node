@@ -258,4 +258,16 @@ router.post('/passwordUpdate',
       });
   });
 
+router.get('/checkUsername/:username', (req, res) => {
+  const username = req.params.username;
+  
+  User.find({ username: req.params.username })
+    .then((results) => {
+      if (results.length > 0) {
+        return res.send('Username already exists, please pick another one')
+      } 
+      return res.send('OK');
+    });
+});
+
 module.exports = router;

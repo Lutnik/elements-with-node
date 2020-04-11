@@ -5,8 +5,14 @@ const userSchema = new mongoose.Schema({
   username: String,
   password: String,
   description: String,
-  email: { type: String },
+  email: String,
   isAdmin: { type: Boolean, default: false },
+  tags: [String],
+  language: String,
+  favourites: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Element',
+  }],
   comments: [{
     id: String,
     element: String,
