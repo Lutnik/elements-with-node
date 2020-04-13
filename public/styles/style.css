@@ -21,6 +21,7 @@ nav, nav ol {
 
 #githubLink::after {
   content: "See the code on Github";
+  z-index: 2;
   display: block;
   position: absolute;
   top: 1.7em;
@@ -33,8 +34,8 @@ nav, nav ol {
   border-radius: 0.25em;
   transform: scale(0);
   transition: 
-    transform ease-out 200ms,
-    left ease-out 200ms;
+    transform ease-out 100ms,
+    left ease-out 100ms;
 }
 
 #githubLink:hover::after {

@@ -11,7 +11,7 @@
 			<div class="form-group">
 				<label for="username">Username:</label>
 				<input type="text" class="form-control" id="username" name="username" required>
-        <small id="usernameHelp" class="form-text"></small>
+        <small id="usernameHelp" class="form-text">  </small>
 			</div>
 			<div class="form-group">
 				<label for="email">Email:</label>
@@ -20,16 +20,17 @@
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label>
-				<input type="password" class="form-control" id="password" name="password" placeholder="password" required>
+				<input type="password" class="form-control" id="password" name="password" required>
         <small id="passwordHelp" class="form-text text-white-50">Minimum length is 8, must contain a number</small>
 			</div>
       <div class="form-group">
-        <label for="tags"> List the children that you will later tag drawings with </label>
-        
+        <label for="tags"> List the children that you will later use to tag drawings </label>
+        <textarea class="form-control" name="tags" id="tags"></textarea>
+        <small id="tagsHelp" class="form-text text-white-50">Put each name in a separate line</small>
       </div>
 			<div class="form-group">
 				<label for="description">Something about you:</label>
-				<textarea class="form-control" name="description" id="description" placeholder="About you"></textarea>
+				<textarea class="form-control" name="description" id="description"></textarea>
 			</div>
 			<div class="form-group">
 				<button id="submit" type="submit" class="btn btn-outline-success" > Register! </button>

@@ -6,6 +6,7 @@ const router = express.Router({ mergeParams: true });
 const { check } = require('express-validator');
 const middleware = require('../middleware');
 const Element = require('../models/element');
+const Comment = require('../models/comment');
 
 const escapeRegex = (string) => string.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 
@@ -43,6 +44,7 @@ router.get('/', async (req, res) => {
         {
           skip: (resultsPerPage * page) - resultsPerPage,
           limit: resultsPerPage,
+          sort: { _id: -1 },
         });
       totalNum = await Element.countDocuments({ name: search });
     } else {
@@ -51,6 +53,7 @@ router.get('/', async (req, res) => {
         {
           skip: (resultsPerPage * page) - resultsPerPage,
           limit: resultsPerPage,
+          sort: { _id: -1 },
         });
       totalNum = await Element.countDocuments();
     }
@@ -62,6 +65,7 @@ router.get('/', async (req, res) => {
       numOfResults: totalNum,
       searchVal,
       resultsPerPage,
+      tags: req.user ? req.user.tags : '',
     });
   } catch (err) {
     req.flash('error', err.message);
@@ -123,6 +127,28 @@ router.get('/:id', (req, res) => {
       req.flash('error', 'Invalid picture ID or no image found');
       res.redirect('/elements');
     });
+});
+
+router.post('/:id/remove', async (req, res) => {
+  try {
+    await Promise.all([
+      Comment.deleteMany({ elementID: req.params.id }),
+      Element.deleteOne({ _id: req.params.id })
+      ]);
+    req.flash('success', 'Element removed');
+    res.redirect('/elements');
+  } catch (err) {
+    req.flash('error', 'Element couldn\'t be removed');
+    res.redirect('back');
+  }
+
+
+    
+    //const newelement = await Element.find({ 'user.id': req.params.id }); //deleteOne
+    //console.log(newelement);
+    
+  // remove all comments
+  // remove element from 
 });
 
 module.exports = router;

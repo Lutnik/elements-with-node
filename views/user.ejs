@@ -17,6 +17,17 @@
 				<input type="email" class="form-control" name="email" placeholder="<%= user.email %>" value="<%= user.email %>">
         <small id="emailHelp" class="form-text text-white-50">Optional, for password reset only</small>
 			</div>
+      <div class="form-group">
+        <label for="tags"> Your tags </label>
+        <% let textareaHeight = 3;
+           let textareaContent = null;
+           if(user.tags) { 
+             textareaHeight = user.tags.length + 1;
+             textareaContent = user.tags.reduce((accu, next) => accu +=`${next}\n`, '');
+           } %>
+        <textarea class="form-control" rows="<%= textareaHeight %>" name="tags" id="tags"><%= textareaContent %></textarea>
+        <small id="tagsHelp" class="form-text text-white-50">Put each name in a separate line</small>
+      </div>
 			<div class="form-group">
 				<label for="description">About you</label>
 				<textarea class="form-control" name="description" rows="3"><%= user.description %></textarea>

@@ -9,15 +9,16 @@ Switched to polish language because of grandmas.
 
 ### DRAWINGS TODO
 - [ ] add admin role
-- [ ] change schemas to accomodate new features 
+- [x] change schemas to accomodate new features 
   - element: tags, date drawn, visibility
   - user: favourites, tags
-- [ ] add tags that will be kids names
+- [x] add tags that will be kids names
 - [ ] tags will be selectable from list of children a user has defined - this should make it easier to tag a picture
-- [ ] add option to remove drawings
+- [x] add option to remove drawings
 - [ ] add favourites
 - [ ] search redo to make ue of tags/favourites/drawn date with sorting option
+- [x] input drag&drop
 - [ ] switch to light theme
 - [ ] add language (multilang perhaps?)
-
+- [ ] make things more readable, split route code into functions
 

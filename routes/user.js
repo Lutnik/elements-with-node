@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 
 const router = express.Router({ mergeParams: true });
 const passport = require('passport');
+const emailOccupied = require('../src/emailOccupied');
 const middleware = require('../middleware');
 const User = require('../models/user');
 const Comment = require('../models/comment');
@@ -50,10 +51,12 @@ router.post('/register',
     .trim().escape().isLength({ min: 8, max: 32 })
     .bail()
     .matches(/\d/),
+  check('tags').escape(),
+  check('description').escape(),
   (req, res) => {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
-      const errMsg = validationErrors.errors.reduce((prev, curr) => prev.msg + curr.msg,
+      const errMsg = validationErrors.errors.reduce((acc, next) => acc.msg + next.msg,
         { msg: 'Please correct the following errors ' });
       req.flash('error', errMsg);
       return res.redirect('/user/register');
@@ -62,6 +65,7 @@ router.post('/register',
       username: req.body.username,
       description: req.body.description,
       email: req.body.email,
+      tags: req.body.tags.split('\n'),
     });
     User.find({ email: newUser.email })
       .then((results) => {
@@ -111,7 +115,7 @@ router.post('/forgot',
           },
         });
         await transporter.sendMail({
-          from: 'Elements app',
+          from: 'Drawings app',
           to: user.email,
           subject: 'Password reset email',
           html: resetEmail(req.headers.host, token),
@@ -128,7 +132,7 @@ router.post('/forgot',
               req.flash('error', err.message);
               return res.redirect('/');
             }
-            req.flash('success', 'The email with a link has been sent. It will be active for one hour');
+            req.flash('success', `The email with a link has been sent. It will be active for one hour Token is ${token}`);
             return res.redirect('/');
           });
       }
@@ -156,9 +160,15 @@ router.get('/forgot/:token', async (req, res) => {
 });
 
 router.post('/forgot/passwordUpdate',
-  check('username').trim().escape(),
-  check('email').isEmail(),
+  check('password', 'Password must have between 8 and 32 characters and include a number')
+    .trim().escape().isLength({ min: 8, max: 32 })
+    .matches(/\d/),
   (req, res) => {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      req.flash('error', 'Password must contain 8 - 32 characters and at least one digit');
+      return res.redirect('back');
+    }
     if (req.body.password !== req.body.newPasswordConfirm) {
       req.flash('error', 'Passwords do not match');
       return res.redirect('/');
@@ -193,7 +203,6 @@ router.post('/forgot/passwordUpdate',
   });
 
 router.get('/details', middleware.isLoggedIn, (req, res) => {
-  // get 5 comments of the user
   Comment.find({ author: req.user.username }).sort({ _id: -1 }).limit(5)
     .then((comments) => {
       req.breadcrumbs('User setup');
@@ -207,14 +216,18 @@ router.get('/details', middleware.isLoggedIn, (req, res) => {
 });
 
 router.post('/details', middleware.isLoggedIn, (req, res) => {
-  User.find({ email: req.body.email })
-    .then((results) => {
-      if (results.length === 0
-         || (results.length === 1 && results[0]._id.equals(req.user._id))) {
+  emailOccupied(req.body.email, req.user._id)
+    .then((occupied) => {
+      if (!occupied) {
+        const tags = req.body.tags
+          .split('\n')
+          .map((tag) => tag.replace('\r', '').trim())
+          .filter((tag) => tag);
         User.findByIdAndUpdate(req.user._id,
           {
             description: req.body.description,
             email: req.body.email,
+            tags,
           },
           (err) => {
             if (err) {
@@ -224,7 +237,10 @@ router.post('/details', middleware.isLoggedIn, (req, res) => {
               return res.redirect('/user/details');
             }
           });
-      } else throw new Error('Email already in use, please select another');
+      } else {
+        req.flash('error', 'Email already in use, please enter another one');
+        res.redirect('/user/details');
+      }
     })
     .catch((err) => {
       req.flash('error', err.message);
@@ -259,13 +275,13 @@ router.post('/passwordUpdate',
   });
 
 router.get('/checkUsername/:username', (req, res) => {
-  const username = req.params.username;
-  
+  const { username } = req.params;
+
   User.find({ username: req.params.username })
     .then((results) => {
       if (results.length > 0) {
-        return res.send('Username already exists, please pick another one')
-      } 
+        return res.send('Username already exists, please pick another one');
+      }
       return res.send('OK');
     });
 });

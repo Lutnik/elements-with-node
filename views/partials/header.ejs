@@ -45,11 +45,16 @@
     </ul>   
 	</nav>
 <% } else { %>
-  <nav class="navbar navbar-dark justify-content-end">
-		<span class="navbar-text mx-3 text-white"> Welcome,  
-			<a class="text-success" href="/user/details"><%= currentUser.username %> </a>
-		</span>
-			<a class="btn btn-success my-2 mx-1" href="/logout"> Logout </a>
+  <nav class="navbar navbar-dark justify-content-between">
+    <a id="githubLink" class="navbar-brand m-0" href="https://github.com/Lutnik/elements-with-node" target="new">
+      <img class="img-fluid" src="/pic/GitHub-Mark-Light-64px.png" alt="Github"> 
+    </a> 
+    <div>
+      <span class="navbar-text mx-3 text-white"> Welcome,  
+        <a class="text-success" href="/user/details"><%= currentUser.username %> </a>
+      </span>
+      <a class="btn btn-success my-2 mx-1" href="/logout"> Logout </a>
+    </div>
 	</nav> 
 <% } %>
 

@@ -10,23 +10,44 @@
 </div>
 <div class="text-white container d-flex justify-content-center">
 	<div class="col-9 col-sm-8 col-md-6 col-lg-4 mt-lg-4 mt-2">
-		<form action="/user/forgot/passwordUpdate" method="POST">
+		<form id="newPwd" action="/user/forgot/passwordUpdate" method="POST">
 			<div class="form-group">
 				<input type="text" class="form-control d-none" name="username" value="<%= user.username %>">
 			</div>
 			<div class="form-group">
-				<label for="password">New Password</label>
-				<input type="password" class="form-control" name="password">
+				<label for="pwd1">New Password</label>
+				<input id="pwd1" type="password" class="form-control" name="password">
+        <small id="newPasswordHelp" class="form-text text-white-50">Minimum length is 8, must contain a number</small>
 			</div>
 			<div class="form-group">
-				<label for="newPasswordConfirm">Confirm Password</label>
-				<input type="password" class="form-control" name="newPasswordConfirm">
+				<label for="pwd2">Confirm Password</label>
+				<input id="pwd2" type="password" class="form-control" name="newPasswordConfirm">
+        <small id="newPasswordConfirmHelp" class="form-text text-white-50">Minimum length is 8, must contain a number</small>
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-outline-success" > Change password </button>
+				<button id="newPwdSubmit" type="submit" class="btn btn-outline-success" > Change password </button>
 			</div>
 		</form>
 	</div>
 </div>
-
+<script>
+  const newPwdForm = document.querySelector('#newPwd');
+  const pwd1 = document.querySelector('#pwd1');
+  const pwd2 = document.querySelector('#pwd2');
+  const pwdHelp = document.querySelector('#newPasswordConfirmHelp');
+  
+  newPwdForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (pwd1.value === pwd2.value) {
+      pwdHelp.classList.remove('text-danger');
+      newPwdForm.submit();
+    } else {
+      pwdHelp.classList.add('text-danger');
+      pwdHelp.classList.remove('text-white-50');
+      pwdHelp.textContent = 'Passwords do not match';
+    }
+    
+  });
+  
+</script>
 <%- include('partials/footer') %>
