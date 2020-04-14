@@ -35,9 +35,8 @@ router.get('/', async (req, res) => {
       : parseInt(req.query.resultsPerPage) || 12;
     const page = req.query.page || 1;
     let searchVal = '';
-    let search = {};
-console.log(req.query);
-    
+    const search = {};
+
     if (req.query.search) {
       searchVal = req.query.search;
       const searchQuery = new RegExp(escapeRegex(req.query.search), 'gi');
@@ -45,7 +44,7 @@ console.log(req.query);
     }
     if (req.query.tags) {
       search.tags = { $in: req.query.tags };
-    }  
+    }
     const elements = await Element.find(search,
       '_id name link',
       {
@@ -54,7 +53,7 @@ console.log(req.query);
         sort: { _id: -1 },
       });
     const totalNum = await Element.countDocuments(search);
-    
+
     req.breadcrumbs('Elements');
     return res.render('elements', {
       elements,
@@ -77,9 +76,11 @@ router.post('/',
   check('element[description]').trim().escape(),
   (req, res) => {
     try {
+      const d = req.body.dateText.split('/');
+      const createdDate = new Date(d[2], d[1] - 1, d[0]);
       cloudinary.uploader.upload(req.file.path, (result) => {
         const newElement = new Element(req.body.element);
-        [newElement.link, newElement.user.id, newElement.user.username] = [result.secure_url, req.user._id, req.user.username];
+        [newElement.link, newElement.user.id, newElement.user.username, newElement.createdDate] = [result.secure_url, req.user._id, req.user.username, createdDate];
         newElement.save((err) => {
           if (err) {
             req.flash('error', err.message);
@@ -130,8 +131,8 @@ router.post('/:id/remove', async (req, res) => {
   try {
     await Promise.all([
       Comment.deleteMany({ elementID: req.params.id }),
-      Element.deleteOne({ _id: req.params.id })
-      ]);
+      Element.deleteOne({ _id: req.params.id }),
+    ]);
     req.flash('success', 'Element removed');
     res.redirect('/elements');
   } catch (err) {
@@ -140,12 +141,11 @@ router.post('/:id/remove', async (req, res) => {
   }
 
 
-    
-    //const newelement = await Element.find({ 'user.id': req.params.id }); //deleteOne
-    //console.log(newelement);
-    
+  // const newelement = await Element.find({ 'user.id': req.params.id }); //deleteOne
+  // console.log(newelement);
+
   // remove all comments
-  // remove element from 
+  // remove element from
 });
 
 module.exports = router;

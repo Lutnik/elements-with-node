@@ -275,8 +275,6 @@ router.post('/passwordUpdate',
   });
 
 router.get('/checkUsername/:username', (req, res) => {
-  const { username } = req.params;
-
   User.find({ username: req.params.username })
     .then((results) => {
       if (results.length > 0) {
