@@ -34,29 +34,27 @@ router.get('/', async (req, res) => {
       ? 12
       : parseInt(req.query.resultsPerPage) || 12;
     const page = req.query.page || 1;
-    let elements = [];
-    let totalNum = 0;
-    const searchVal = req.query.search;
+    let searchVal = '';
+    let search = {};
+console.log(req.query);
+    
     if (req.query.search) {
-      const search = new RegExp(escapeRegex(req.query.search), 'gi');
-      elements = await Element.find({ name: search },
-        '_id name link',
-        {
-          skip: (resultsPerPage * page) - resultsPerPage,
-          limit: resultsPerPage,
-          sort: { _id: -1 },
-        });
-      totalNum = await Element.countDocuments({ name: search });
-    } else {
-      elements = await Element.find({ },
-        '_id name link',
-        {
-          skip: (resultsPerPage * page) - resultsPerPage,
-          limit: resultsPerPage,
-          sort: { _id: -1 },
-        });
-      totalNum = await Element.countDocuments();
+      searchVal = req.query.search;
+      const searchQuery = new RegExp(escapeRegex(req.query.search), 'gi');
+      search.name = searchQuery;
     }
+    if (req.query.tags) {
+      search.tags = { $in: req.query.tags };
+    }  
+    const elements = await Element.find(search,
+      '_id name link',
+      {
+        skip: (resultsPerPage * page) - resultsPerPage,
+        limit: resultsPerPage,
+        sort: { _id: -1 },
+      });
+    const totalNum = await Element.countDocuments(search);
+    
     req.breadcrumbs('Elements');
     return res.render('elements', {
       elements,
@@ -65,7 +63,6 @@ router.get('/', async (req, res) => {
       numOfResults: totalNum,
       searchVal,
       resultsPerPage,
-      tags: req.user ? req.user.tags : '',
     });
   } catch (err) {
     req.flash('error', err.message);

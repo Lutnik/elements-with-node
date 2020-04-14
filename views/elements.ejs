@@ -16,6 +16,22 @@
             </select>
           </div>
       </div>
+    <% if (currentUser) { %>
+    <div class="form-row">
+      <div class="form-group">      
+        <div data-toggle="buttons" class="btn-group btn-group-toggle">
+          <% currentUser.tags.forEach((tag) => { %>
+          <label class="btn btn-sm btn-outline-warning border-0"><%= tag %>
+            <input class="form-check-input" type="checkbox" name="tags" value="<%= tag %>">
+          </label>
+          <% }) %>
+          <label class="btn btn-sm btn-outline-warning border-0">Unknown
+            <input class="form-check-input" type="checkbox" name="tags" value="Unknown">
+          </label>
+        </div>
+      </div>
+    </div>
+    <% } %>
       <div class="form-row mb-3">
         <div class="form-group col-8 col-md-7 col-lg-6 col-xl-5 d-flex justify-content-around">
           <button type="submit" class="btn btn-outline-success px-2 px-md-4">Search</button>
@@ -38,10 +54,15 @@
 <% } %>
 <div class="container my-4 text-center p-0 d-flex align-content-start flex-wrap">
 	<% elements.forEach(el => { %>		
-		<div class="div-gallery col-lg-4 col-md-6 col-12">
+		<div class="div-gallery col-xl-4 col-md-6 col-12">
 			<a href="/elements/<%= el._id %>">
-			<div class="d-block mb-4 h-100 text-success"> 
-        <span class="title-gallery"><%= el.name %> </span>
+			<div class="d-flex align-items-center flex-column mb-4 h-100 text-success"> 
+        <span class="title-gallery pb-2"><%= el.name %> </span>
+        <% // Change URL to transform images to 300x300 with auto fill 
+          let split = el.link.split('/');
+          split[split.length - 2] = 'w_300,h_300,c_fill,g_auto'; 
+          el.link = split.join('/'); 
+        %>
 				<img class="img-gallery img-fluid img-thumbnail m-0" src="<%= el.link %>">
 			</div>
 			</a>
@@ -102,7 +123,7 @@
       <div class="form-group">      
         <label> Tag image </label>
         <div data-toggle="buttons" class="btn-group btn-group-toggle">
-          <% tags.forEach((tag) => { %>
+          <% currentUser.tags.forEach((tag) => { %>
           <label class="btn btn-sm btn-outline-warning border-0"><%= tag %>
             <input class="form-check-input" type="checkbox" name="element[tags]" value="<%= tag %>">
           </label>
@@ -134,31 +155,14 @@
   const resultsPerPageDropdown = document.querySelector("#resultsPerPage");
   
   resultsPerPageDropdown.addEventListener('change', () => searchForm.submit());
-  
   clearButton.addEventListener('click', () => {
-    searchField.value = "";
     searchForm.reset();
+    searchForm.submit();
   });
   
   $(".custom-file-input").on("change", function() {
-    var fileName = $(this).val().split("\\").pop();
+    const fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
   });  
-  // const taglist = [...document.querySelectorAll('[data-toggle="buttons"] .btn')];
-  // taglist.forEach((label) => {
-  //   label.addEventListener('click', (x) => {
-  //     console.log(x.target.children[0]);
-  //     console.log(x.target.children[0].checked);
-  //     if (x.target.children[0].checked) {
-  //       x.target.classList.remove('btn-secondary');
-  //       x.target.classList.add('btn-success');
-  //       x.target.children[0].setAttribute('checked', 'false');
-  //     } else {
-  //       x.target.classList.remove('btn-success');
-  //       x.target.classList.add('btn-secondary');
-  //       x.target.children[0].setAttribute('checked', 'true');
-  //     }
-  //   });
-  // });
 </script>
 <%- include('partials/footer') %>
