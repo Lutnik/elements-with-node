@@ -2,8 +2,14 @@
 
 <div class="container-fluid d-flex flex-wrap my-2 my-md-5 px-0 px-md-5">
   <div class="col-12 col-md-6">
-    <img class="img-fluid" src="<%= element.link %>">
+    <img id="mainImg" class="img-fluid" src="<%= element.link %>">
   </div>
+  <!-- MODAL -->
+  <div id="myModal" class="modal">
+    <img id="modalImg" class="modal-content" src="<%= element.link %>" >
+    <div class="modal-caption"><%= element.name %></div>
+  </div>
+  
   <div class="col-12 col-md-6 px-4 py-3 py-md-0">
     <div class="row d-flex justify-content-between">
       <h3 class="border-secondary border-bottom text-white d-inline-block pb-1">
@@ -26,10 +32,13 @@
         Uploaded: <%= element.user.username || 'Unknown' %>
       </h6>
     </div>
-    <div class="row">
-      <h6 class="border-secondary border-bottom text-light d-inline-block pb-1">
-        Tags: <%= element.tags || 'Unknown' %>
-      </h6>
+    <div class="row align-items-center">
+      <span class="text-warning d-inline-block">
+        Tags: 
+      </span>
+      <% for(tag of element.tags) { %>
+        <button class="btn btn-outline-warning btn-sm mx-1" disabled> <%= tag %> </button>
+      <% } %>
     </div>
     <div class="row">
       <span class="text-white">
@@ -91,5 +100,15 @@
 	</span>
 </div>
 <% } %>
+
+<script>
+  const modal = document.querySelector("#myModal");
+  const img = document.querySelector('#mainImg');
+  img.addEventListener('click', () => modal.style.display = 'block');
+  //const span = document.querySelector('#modalClose');
+  modal.addEventListener('click', () => modal.style.display = 'none');
+  document.addEventListener('keydown', () => modal.style.display = 'none');
+  
+</script>
 
 <%- include('partials/footer') %>

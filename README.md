@@ -13,7 +13,7 @@ Switched to polish language because of grandmas.
   - element: tags, date drawn, visibility
   - user: favourites, tags
 - [x] add tags that will be kids names
-- [ ] tags will be selectable from list of children a user has defined - this should make it easier to tag a picture
+- [x] tags will be selectable from list of children a user has defined - this should make it easier to tag a picture
 - [x] add option to remove drawings
 - [ ] add favourites
 - [ ] search redo to make ue of tags/favourites/drawn date with sorting option
