@@ -10,6 +10,7 @@ const Comment = require('../models/comment');
 
 const escapeRegex = (string) => string.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 
+// MULTER CONFIG
 const upload = multer({
   storage: multer.diskStorage({
     filename(req, file, cb) {
@@ -28,6 +29,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Main page
 router.get('/', async (req, res) => {
   try {
     const resultsPerPage = req.query.resultsPerPage < 12 || req.query.resultsPerPage > 24
@@ -69,6 +71,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Add element
 router.post('/',
   middleware.isLoggedIn,
   check('element[name]').trim().escape(),
@@ -99,6 +102,7 @@ router.post('/',
     res.redirect('back');
   });
 
+// View element details
 router.get('/:id', (req, res) => {
   req.breadcrumbs().push(
     { name: 'Elements', url: '/elements' },
@@ -127,6 +131,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
+// Remove element
 router.post('/:id/remove', async (req, res) => {
   try {
     await Promise.all([
@@ -139,13 +144,6 @@ router.post('/:id/remove', async (req, res) => {
     req.flash('error', 'Element couldn\'t be removed');
     res.redirect('back');
   }
-
-
-  // const newelement = await Element.find({ 'user.id': req.params.id }); //deleteOne
-  // console.log(newelement);
-
-  // remove all comments
-  // remove element from
 });
 
 module.exports = router;

@@ -6,7 +6,7 @@ const elementSchema = new mongoose.Schema({
   description: String,
   rating: Number,
   tags: [String],
-  drawnDate: Date,
+  createdDate: Date,
   user: {
     id: {
       type: mongoose.Schema.Types.ObjectId,

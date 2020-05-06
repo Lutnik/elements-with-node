@@ -9,7 +9,6 @@ const expressSession = require('express-session');
 const mongoSanitize = require('express-mongo-sanitize');
 
 const User = require('./models/user');
-
 const elementsRoutes = require('./routes/elements');
 const commentsRoutes = require('./routes/comments');
 const indexRoutes = require('./routes/index');
@@ -18,15 +17,11 @@ const userRoutes = require('./routes/user');
 const app = express();
 
 // DATABASE CONFIG AND CONNECT
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
-
 mongoose.connect(process.env.DATABASEURL, {
-  socketTimeoutMS: 10000,
-  connectTimeoutMS: 10000,
-  keepAlive: true,
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
 })
   .catch((err) => console.error(err));
 const db = mongoose.connection;

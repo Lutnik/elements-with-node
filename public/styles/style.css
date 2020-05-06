@@ -1,3 +1,4 @@
+/* GENERAL */
 body {
 	background-color: #333333;
 	background-image: url('../pic/congruent_outline.png');
@@ -7,14 +8,12 @@ nav, nav ol {
 	background-color: transparent !important;
 }
 
+/* BREADCRUMBS */
 .breadcrumb-item + .breadcrumb-item::before {
   color: #ffffff;
 }
 
-.searchDiv {
-  background-color: #3b3b3b;
-}
-
+/* NAVBAR GITHUB LINK */
 #githubLink {
   position: relative;
 }
@@ -27,11 +26,11 @@ nav, nav ol {
   top: 1.7em;
   left: 0%;
   background-color: #28a745;
-  padding: 0.5em 1em;
+  padding: .5em 1em;
   color: white;
-  font-size: 0.6em;
+  font-size: .6em;
   white-space: nowrap;
-  border-radius: 0.25em;
+  border-radius: .25em;
   transform: scale(0);
   transition: 
     transform ease-out 100ms,
@@ -41,6 +40,11 @@ nav, nav ol {
 #githubLink:hover::after {
   transform: scale(1);
   left: 100%;
+}
+
+/* ELEMENTS GALLERY */
+.searchDiv {
+  background-color: #3b3b3b;
 }
 
 .img-gallery {
@@ -58,10 +62,9 @@ nav, nav ol {
 }
 
 .div-gallery:hover .title-gallery {
-  /*white-space: nowrap;*/
   opacity: 85%;
-  padding: 0.5em 1em;
-  border-radius: 0.15em;
+  padding: .5em 1em;
+  border-radius: .15em;
   color: white;
   text-transform: uppercase;
   font-size: 1.2em;
@@ -71,3 +74,11 @@ nav, nav ol {
 .div-gallery:hover a:link {
   text-decoration: none;
 }
+
+.datepicker td,
+.datepicker th {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: .85rem;
+}
+

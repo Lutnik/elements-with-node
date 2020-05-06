@@ -117,8 +117,11 @@
         <input type="text" class="form-control" name="element[description]" placeholder="Enter description" value="" id="desc">
       </div>
       <div class="form-group">
-        <label for="desc">Date created</label>
-        <input type="text" class="form-control" name="element[description]" placeholder="Enter description" value="" id="desc">
+        <label for="datepicker">Date created</label>
+          <div class="datepicker date input-group p-0">
+            <input type="text" placeholder="DD/MM/YYYY" class="form-control py-4 px-4" id="datepick" name="dateText" required>
+            <div class="input-group-append"><span class="input-group-text"><i class="las la-calendar-day text-lg"></i></span></div>
+          </div>
       </div>
       <div class="form-group">      
         <label> Tag image </label>
@@ -131,7 +134,7 @@
           <label class="btn btn-sm btn-outline-warning border-0">Unknown
             <input class="form-check-input" type="checkbox" name="element[tags]" value="Unknown">
           </label>
-        </div>
+        </div> 
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-outline-success px-2 px-md-4">Add</button>
@@ -148,21 +151,51 @@
 	</h4>
 </div>
 <% } %>
-<script type="text/javascript">
+
+<!-- SEARCH BAR LOGIC -->
+<script type="text/javascript"> 
   const clearButton = document.querySelector("#clear");
   const searchForm = document.querySelector("#elementSearchForm");
   const searchField = document.querySelector("#search");
   const resultsPerPageDropdown = document.querySelector("#resultsPerPage");
   
   resultsPerPageDropdown.addEventListener('change', () => searchForm.submit());
+  
   clearButton.addEventListener('click', () => {
     searchForm.reset();
     searchForm.submit();
   });
-  
-  $(".custom-file-input").on("change", function() {
-    const fileName = $(this).val().split("\\").pop();
-    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+</script>
+
+<!-- ADD FORM LOGIC: FILE INPUT AND DATEPICKER -->
+<script type="text/javascript" src="js/iptc.js"></script>
+<script>  
+  $('#imageFile').on('change', function() {
+    let fileName = $(this).val().split('\\').pop();
+    if (fileName.length > 25) {
+      fileName = fileName.substring(0,25) + '...';
+    } 
+    $(this).siblings().addClass('selected').html(fileName);
+    getTags($('#imageFile')[0].files[0], data => {
+      const { caption, date_created, document_title } = data.tags;
+      if (document_title) {
+        document.querySelector('#nameInput').value = document_title;
+      }
+      if (caption) {
+        document.querySelector('#desc').value = caption;
+      }
+      if (date_created) {
+        
+        let val = `${date_created.substring(6,8)}/${date_created.substring(4,6)}/${date_created.substring(0,4)}`;
+        document.querySelector('#datepick').value = val;
+      }
+    });
   });  
+  
+  
+  $('.datepicker').datepicker({
+    clearBtn: true,
+    format: "dd/mm/yyyy"
+  });
 </script>
 <%- include('partials/footer') %>

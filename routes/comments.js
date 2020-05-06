@@ -7,6 +7,7 @@ const User = require('../models/user');
 
 const router = express.Router({ mergeParams: true });
 
+// Add new comment
 router.post('/comment',
   middleware.isLoggedIn,
   check('comment[text]').trim().escape(),
@@ -34,6 +35,7 @@ router.post('/comment',
     }
   });
 
+// Remove specific comment
 router.post('/comment/:commentId/remove', middleware.isLoggedIn, async (req, res) => {
   try {
     const commentID = req.params.commentId;
