@@ -78,14 +78,17 @@ router.post('/',
   upload.single('image'),
   check('element[description]').trim().escape(),
   (req, res) => {
-console.log(`Entering POST route: ${req.file.path}`)
     try {
       const d = req.body.dateText.split('/');
       const createdDate = new Date(d[2], d[1] - 1, d[0]);
       cloudinary.uploader.upload(req.file.path, (result) => {
-console.log(result);
-        const newElement = new Element(req.body.element);
-        [newElement.link, newElement.user.id, newElement.user.username, newElement.createdDate] = [result.secure_url, req.user._id, req.user.username, createdDate];
+        if (result.error) {
+          req.flash('error', result.error.message);
+          return res.redirect('back');
+        } else {
+          const newElement = new Element(req.body.element);
+          [newElement.link, newElement.user.id, newElement.user.username, newElement.createdDate] = [result.secure_url, req.user._id, req.user.username, createdDate];
+          newElement.name = newElement.name.trim();
         newElement.save((err) => {
           if (err) {
             req.flash('error', err.message);
@@ -93,7 +96,8 @@ console.log(result);
           }
           req.flash('success', 'New picture added successfully');
           return res.redirect('/elements');
-        });
+          });
+       }
       });
     } catch (error) {
       req.flash('error', error.message);
