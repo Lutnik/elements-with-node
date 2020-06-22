@@ -1,7 +1,7 @@
 /* GENERAL */
 body {
-	background-color: #333333;
-	background-image: url('../pic/congruent_outline.png');
+	background-color: #ffffff;
+	background-image: url('../pic/memphis-mini.png');
 	min-height: 100vh;
 }
 nav, nav ol {
@@ -10,7 +10,7 @@ nav, nav ol {
 
 /* BREADCRUMBS */
 .breadcrumb-item + .breadcrumb-item::before {
-  color: #ffffff;
+  color: #6c7599;
 }
 
 /* NAVBAR GITHUB LINK */
@@ -43,9 +43,9 @@ nav, nav ol {
 }
 
 /* ELEMENTS GALLERY */
-.searchDiv {
+/*.searchDiv {
   background-color: #3b3b3b;
-}
+}*/
 
 .img-gallery {
   transition: transform ease-out 150ms; 

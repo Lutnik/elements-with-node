@@ -1,6 +1,6 @@
 <%- include('partials/header') %>
 
-<div class="container my-3 px-4 pt-2 text-white rounded-lg searchDiv">
+<div class="container my-3 px-4 pt-2 text-dark rounded-lg searchDiv">
   <form id="elementSearchForm" action="/elements" method="GET">
       <div class="form-row justify-content-between">
           <div class="form-group col-8 col-md-7 col-lg-6 col-xl-5">
@@ -21,11 +21,11 @@
       <div class="form-group">      
         <div data-toggle="buttons" class="btn-group btn-group-toggle">
           <% currentUser.tags.forEach((tag) => { %>
-          <label class="btn btn-sm btn-outline-warning border-0"><%= tag %>
+          <label class="btn btn-sm btn-outline-info border-0"><%= tag %>
             <input class="form-check-input" type="checkbox" name="tags" value="<%= tag %>">
           </label>
           <% }) %>
-          <label class="btn btn-sm btn-outline-warning border-0">Unknown
+          <label class="btn btn-sm btn-outline-info border-0">Unknown
             <input class="form-check-input" type="checkbox" name="tags" value="Unknown">
           </label>
         </div>
@@ -43,7 +43,7 @@
 
 <% if (searchVal) { %>
 <div class="container">
-  <h4 class="text-warning">
+  <h4 class="text-info">
     Searching for <%= searchVal %>
     <% if (numOfResults == 0) { %>
     - no results found
@@ -82,11 +82,11 @@
       <div class="col col-sm-10 col-lg-8 col-xl-6">
         <div class="form-group m-0 pb-3 d-flex justify-content-center">
           <% if (page != 1) { %>
-          <a href="<%= `${address}page=${parseInt(page)-1}`  %>" id="previousPage" class="btn btn-outline-light w-25"> Previous page </a>
+          <a href="<%= `${address}page=${parseInt(page)-1}`  %>" id="previousPage" class="btn btn-outline-dark w-25"> Previous page </a>
           <% } %>
-          <input type="text" id="currentPage" value="Page <%= page %> of <%= pages %>"  class="form-control-plaintext w-25 text-center text-light" readonly>
+          <input type="text" id="currentPage" value="Page <%= page %> of <%= pages %>"  class="form-control-plaintext w-25 text-center text-dark" readonly>
           <% if (page != pages) { %>
-          <a href="<%= `${address}page=${parseInt(page)+1}` %>" id="nextPage" class="btn btn-outline-light w-25"> Next page </a>
+          <a href="<%= `${address}page=${parseInt(page)+1}` %>" id="nextPage" class="btn btn-outline-dark w-25"> Next page </a>
           <% } %>
         </div>
       </div>
@@ -96,8 +96,8 @@
 <% if (currentUser) { %>
 
 <div class="container">
-  <div class="col col-sm-8 col-md-6 col-lg-5 col-xl-4 text-white">
-    <h4 class="text-center my-4 text-warning">
+  <div class="col col-sm-8 col-md-6 col-lg-5 col-xl-4 text-dark">
+    <h4 class="text-center my-4 text-info">
       Add a new element:
     </h4>
     <form action="/elements" method="POST" enctype="multipart/form-data">
@@ -146,7 +146,7 @@
 
 <% } else { %>
 <div class="container">
-	<h4 class="text-center my-4 text-warning">
+	<h4 class="text-center my-4 text-info">
 		You need to be signed in to add images
 	</h4>
 </div>

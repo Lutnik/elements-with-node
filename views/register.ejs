@@ -1,11 +1,11 @@
 <%- include('partials/header') %>
 
 <div class="container">
-	<h1 class="text-center text-white m-lg-4 mt-3">
+	<h1 class="text-center text-dark m-lg-4 mt-3">
 		Register here!
 	</h1>	
 </div>
-<div class="container d-flex justify-content-center text-white">
+<div class="container d-flex justify-content-center text-dark">
 	<div class="col-9 col-sm-8 col-md-6 col-lg-4 mt-lg-4 mt-2">
 		<form id="register" action="/user/register" method="POST">
 			<div class="form-group">
@@ -16,17 +16,17 @@
 			<div class="form-group">
 				<label for="email">Email:</label>
 				<input type="email" class="form-control" name="email" id="email" value="">
-        <small id="emailHelp" class="form-text text-white-50">Optional, for password reset only</small>
+        <small id="emailHelp" class="form-text text-secondary">Optional, for password reset only</small>
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label>
 				<input type="password" class="form-control" id="password" name="password" required>
-        <small id="passwordHelp" class="form-text text-white-50">Minimum length is 8, must contain a number</small>
+        <small id="passwordHelp" class="form-text text-secondary">Minimum length is 8, must contain a number</small>
 			</div>
       <div class="form-group">
         <label for="tags"> List the children that you will later use to tag drawings </label>
         <textarea class="form-control" name="tags" id="tags"></textarea>
-        <small id="tagsHelp" class="form-text text-white-50">Put each name in a separate line</small>
+        <small id="tagsHelp" class="form-text text-secondary">Put each name in a separate line</small>
       </div>
 			<div class="form-group">
 				<label for="description">Something about you:</label>

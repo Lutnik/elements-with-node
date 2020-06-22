@@ -17,16 +17,16 @@
 	
 <body>
   <% if (!currentUser) { %>
-	<nav class="navbar navbar-dark justify-content-between py-0 px-1 pl-sm-2 pr-sm-3">
-    <a id="githubLink" class="navbar-brand m-0" href="https://github.com/Lutnik/elements-with-node" target="new">
+	<nav class="navbar navbar-light justify-content-between py-0 px-1 pl-sm-2 pr-sm-3">
+    <a id="githubLink" class="navbar-brand m-0" href="https://github.com/Lutnik/elements-with-node" target="_blank">
       <img class="img-fluid" src="/pic/GitHub-Mark-Light-64px.png" alt="Github"> 
     </a> 
     <ul class="navbar px-0" style="list-style: none">
       <li class="nav-item dropdown">
-      <button class="text-white dropdown-toggle btn btn-success my-2 mx-1" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="loginButton">
+      <button class="dropdown-toggle btn btn-success my-2 mx-1" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="loginButton">
         Login
       </button>
-      <div class="dropdown-menu bg-dark text-white px-3" aria-labelledby="navbarDropdown">
+      <div class="dropdown-menu bg-light text-dark px-3" aria-labelledby="navbarDropdown">
         <form class="form-inline" action="/user/login" method="post">
           <label for="username">Username</label>
           <input type="text" class="form-control border border-success mb-2" placeholder="Username" name="username" aria-label="username" id="userInput">
@@ -39,7 +39,7 @@
       </div>
       </li>
       <li class="nav-item">
-        <span class="navbar-text text-white p-2">
+        <span class="navbar-text text-dark p-2">
         ...or register:
       </span>
       </li>
@@ -63,7 +63,7 @@
       <img class="img-fluid" src="/pic/GitHub-Mark-Light-64px.png" alt="Github"> 
     </a> 
     <div>
-      <span class="navbar-text mx-3 text-white"> Welcome,  
+      <span class="navbar-text mx-3 text-dark"> Welcome,  
         <a class="text-success" href="/user/details"><%= currentUser.username %> </a>
       </span>
       <a class="btn btn-success my-2 mx-1" href="/logout"> Logout </a>

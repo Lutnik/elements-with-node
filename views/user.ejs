@@ -1,11 +1,11 @@
 <%- include('partials/header') %>
 <div class="container">
-	<h2 class="text-center text-warning">
+	<h2 class="text-center text-info">
 		Edit your account
 	</h2>
 </div>
 
-<div class="container d-flex text-white justify-content-around flex-wrap">
+<div class="container d-flex text-dark justify-content-around flex-wrap">
 	<div class="align-self-end col-12 col-sm-6 col-lg-5 m-md-3 px-1">
 		<form action="/user/details" method="POST">
 			<div class="form-group">
@@ -15,7 +15,7 @@
 			<div class="form-group">
 				<label for="email">Email</label>
 				<input type="email" class="form-control" name="email" placeholder="<%= user.email %>" value="<%= user.email %>">
-        <small id="emailHelp" class="form-text text-white-50">Optional, for password reset only</small>
+        <small id="emailHelp" class="form-text text-secondary">Optional, for password reset only</small>
 			</div>
       <div class="form-group">
         <label for="tags"> Your tags </label>
@@ -26,7 +26,7 @@
              textareaContent = user.tags.reduce((accu, next) => accu +=`${next}\n`, '');
            } %>
         <textarea class="form-control" rows="<%= textareaHeight %>" name="tags" id="tags"><%= textareaContent %></textarea>
-        <small id="tagsHelp" class="form-text text-white-50">Put each name in a separate line</small>
+        <small id="tagsHelp" class="form-text text-secondary">Put each name in a separate line</small>
       </div>
 			<div class="form-group">
 				<label for="description">About you</label>
@@ -39,7 +39,7 @@
 		
 	</div>
 	<div class="align-self-end col-12 col-sm-6 col-lg-5 m-md-3 px-1">
-    <h4 class="text-center mt-4 text-warning">
+    <h4 class="text-center mt-4 text-info">
       Change your password
     </h4>
 		<form action="/user/passwordUpdate" method="POST">
@@ -50,7 +50,7 @@
 			<div class="form-group">
 				<label for="newPassword">New Password</label>
 				<input type="password" class="form-control" name="newPassword">
-        <small id="passwordlHelp" class="form-text text-white-50">Minimum length is 8, must contain a number</small>
+        <small id="passwordlHelp" class="form-text text-secondary">Minimum length is 8, must contain a number</small>
 			</div>
 			<div class="form-group">
 				<button type="submit" class="btn btn-outline-success" > Change password </button>
@@ -61,7 +61,7 @@
 </div>
 
 <div class="container text-center mt-4">
-  <h4 class="text-warning">
+  <h4 class="text-info">
     Your recent comments
   </h4>  
 </div>

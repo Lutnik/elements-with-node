@@ -12,14 +12,14 @@
   
   <div class="col-12 col-md-6 px-4 py-3 py-md-0">
     <div class="row d-flex justify-content-between">
-      <h3 class="border-secondary border-bottom text-white d-inline-block pb-1">
+      <h3 class="border-secondary border-bottom text-dark d-inline-block pb-1">
       <%= element.name %>
       </h3>
       <% if (currentUser) {
          if (element.user.username === currentUser.username) { %>
         <div class="col-1">
           <form action="/elements/<%= element._id %>/remove" method="POST">
-            <button type="submit" class="close text-white" aria-label="Remove element">
+            <button type="submit" class="close text-dark" aria-label="Remove element">
               <span aria-hidden="true">&times;</span>
             </button>
           </form>
@@ -28,11 +28,11 @@
       } %>
     </div>
     <div class="row">
-      <h6 class="border-secondary border-bottom text-light d-inline-block pb-1">
+      <h6 class="border-secondary border-bottom text-dark d-inline-block pb-1">
         Uploaded: <%= element.user.username || 'Unknown' %>
       </h6>
     </div><div class="row">
-      <h6 class="border-secondary border-bottom text-light d-inline-block pb-1">
+      <h6 class="border-secondary border-bottom text-dark d-inline-block pb-1">
         <% 
         let date = '';
         if (element.createdDate) {
@@ -47,16 +47,13 @@
       </h6>
     </div>
     <div class="row">
-      <span class="text-white">
+      <span class="text-dark">
         <%= element.description %>
       </span>
     </div>	
     <div class="row align-items-center my-2">
-      <span class="text-warning d-inline-block">
-        Tags: 
-      </span>
       <% for(tag of element.tags) { %>
-        <button class="btn btn-outline-warning btn-sm mx-1" disabled> <%= tag %> </button>
+        <button class="btn btn-warning btn-sm mx-1" disabled> <%= tag %> </button>
       <% } %>
     </div>
   </div>
@@ -87,8 +84,8 @@
 <% } %>
 <% if (currentUser) { %>
 <div class="container">
-  <div class="col col-sm-8 col-md-6 col-lg-5 col-xl-4 p-0 text-white">
-    <h4 class="text-center mt-4 text-warning">
+  <div class="col col-sm-8 col-md-6 col-lg-5 col-xl-4 p-0 text-dark">
+    <h4 class="text-center mt-4 text-info">
     Add a new comment:
     </h4>
     <form action="/elements/<%= element._id %>/comment" method="post">
@@ -109,7 +106,7 @@
 </div>
 <% } else { %>
 <div class="container text-center">
-	<span class="text-warning">
+	<span class="text-info">
 		You need to be signed in to add comments
 	</span>
 </div>

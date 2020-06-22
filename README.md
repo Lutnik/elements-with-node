@@ -1,24 +1,31 @@
 # elements-with-node
 
-### This is a learning experience - building own node.js application from scratch using express and mongodb.
+### This is a learning experience - started as a bootcamp project and evolved into a useful app to archive childrens' drawings (there are A LOT of them :-)).
 
-The **drawings branch** is a switch from any picture to children drawings archive specifically. User can login and add a scan/photo with date drawn and description. Tag it with child's name. Search and sort. Favourite. Remove the drawing.
-Comments section not that useful but left unchanged.
-Switched back to light theme.
-Switched to polish language because of grandmas.
+#### From the tech perspective the app has ben build with Node.js using Express framework and mongodb + cloudinary for storage. Passport for proper user management with local password strategy.
+
+
+### Features:
+- The **drawings branch** is a switch from any picture to children drawings archive specifically. 
+- User management:
+  * Register/login
+  * Edit user info
+  * Define "tags" - names that can be later used to identify the author of the drawing
+  * Allow to add/manage pictures and comments
+  * Reset password (via email token)
+- Drawings gallery with search option
+- Details page with details, comments and fullscreen modal
 
 ### DRAWINGS TODO
+- [x] parse IPTC data on file load
 - [ ] add admin role
 - [x] change schemas to accomodate new features 
   - element: tags, date drawn
   - user: favourites, tags
-- [x] add tags that will be kids names
-- [x] tags will be selectable from list of children a user has defined - this should make it easier to tag a picture
+- [x] add tags
 - [x] add option to remove drawings
-- [x] parse IPTC data on file load
 - [x] search redo to make ue of tags/favourites/drawn date with sorting option
 - [x] input drag&drop
-- [ ] switch to light theme
-- [ ] add PL language (multilang perhaps?)
-- [ ] make code more readable
+- [x] switch to light theme
+- [ ] add polish language (multilang perhaps?)
 
