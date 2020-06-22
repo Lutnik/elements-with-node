@@ -21,11 +21,11 @@
       <div class="form-group">      
         <div data-toggle="buttons" class="btn-group btn-group-toggle">
           <% currentUser.tags.forEach((tag) => { %>
-          <label class="btn btn-sm btn-outline-info border-0"><%= tag %>
+          <label class="btn btn-sm btn-outline-warning border-0"><%= tag %>
             <input class="form-check-input" type="checkbox" name="tags" value="<%= tag %>">
           </label>
           <% }) %>
-          <label class="btn btn-sm btn-outline-info border-0">Unknown
+          <label class="btn btn-sm btn-outline-warning border-0">Unknown
             <input class="form-check-input" type="checkbox" name="tags" value="Unknown">
           </label>
         </div>

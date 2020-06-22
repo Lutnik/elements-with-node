@@ -1,5 +1,5 @@
 const express = require('express');
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 
 const router = express.Router({ mergeParams: true });
@@ -81,9 +81,9 @@ router.post('/',
     try {
       const d = req.body.dateText.split('/');
       const createdDate = new Date(d[2], d[1] - 1, d[0]);
-      cloudinary.uploader.upload(req.file.path, (result) => {
-        if (result.error) {
-          req.flash('error', result.error.message);
+      cloudinary.uploader.upload(req.file.path, (error, result) => {
+        if (error) {
+          req.flash('error', error.error.message);
           return res.redirect('back');
         } else {
           const newElement = new Element(req.body.element);
@@ -94,7 +94,7 @@ router.post('/',
             req.flash('error', err.message);
             return res.render('back');
           }
-          req.flash('success', 'New picture added successfully');
+          req.flash('success', 'New picture added successfully')
           return res.redirect('/elements');
           });
        }
