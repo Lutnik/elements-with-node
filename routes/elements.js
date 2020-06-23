@@ -22,8 +22,6 @@ const upload = multer({
     : cb(null, true)),
 });
 
-// CLOUDINARY CONFIG
-
 // Main page
 router.get('/', async (req, res) => {
   try {
@@ -43,15 +41,15 @@ router.get('/', async (req, res) => {
       search.tags = { $in: req.query.tags };
     }
     const elements = await Element.find(search,
-      '_id name link',
+      '_id name link createdDate',
       {
         skip: (resultsPerPage * page) - resultsPerPage,
         limit: resultsPerPage,
-        sort: { _id: -1 },
+        sort: { createdDate: -1 },  
       });
     const totalNum = await Element.countDocuments(search);
-
     req.breadcrumbs('Elements');
+    
     return res.render('elements', {
       elements,
       page,
@@ -61,7 +59,7 @@ router.get('/', async (req, res) => {
       resultsPerPage,
     });
   } catch (err) {
-    req.flash('error', err.message);
+    req.flash('error', `An error has occured: ${err.message}`);
     return res.redirect('back');
   }
 });
@@ -98,7 +96,7 @@ router.post('/',
         });
       });
     } catch (error) {
-      req.flash('error', error.message);
+      req.flash('error', `An error has occured: ${error.message}`);
       res.redirect('back');
     }
   }, (err, req, res) => {
@@ -120,7 +118,7 @@ router.get('/:id', (req, res) => {
       }
       element.populate('comments', (err) => {
         if (err) {
-          req.flash('error', err.message);
+          req.flash('error', `An error has occured: ${err.message}`);
           return res.redirect('/elements');
         }
         return res.render('elementDetails', {

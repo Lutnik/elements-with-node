@@ -2,7 +2,7 @@
 
 ### This is a learning experience - started as a bootcamp project and evolved into a useful app to archive childrens' drawings (there are A LOT of them :-)).
 
-#### From the tech perspective the app has ben build with Node.js using Express framework and mongodb + cloudinary for storage. Passport for proper user management with local password strategy.
+#### From the tech perspective the app has ben build with Node.js using Express framework and mongodb + Cloudinary for storage. Passport package for proper user management with local password strategy.
 
 
 ### Features:
@@ -18,6 +18,7 @@
 
 ### DRAWINGS TODO
 - [x] parse IPTC data on file load
+- [ ] uprgade pagination navigatoin 
 - [ ] add admin role
 - [x] change schemas to accomodate new features 
   - element: tags, date drawn

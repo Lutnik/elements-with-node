@@ -13,13 +13,13 @@ nav, nav ol {
   color: #6c7599;
 }
 
-/* NAVBAR GITHUB LINK */
-#githubLink {
+/* NAVBAR HOMEPAGE */
+#logo {
   position: relative;
 }
 
-#githubLink::after {
-  content: "See the code on Github";
+#logo::after {
+  content: "Go to homepage";
   z-index: 2;
   display: block;
   position: absolute;
@@ -37,15 +37,12 @@ nav, nav ol {
     left ease-out 100ms;
 }
 
-#githubLink:hover::after {
+#logo:hover::after {
   transform: scale(1);
   left: 100%;
 }
 
 /* ELEMENTS GALLERY */
-/*.searchDiv {
-  background-color: #3b3b3b;
-}*/
 
 .img-gallery {
   transition: transform ease-out 150ms; 

@@ -82,7 +82,7 @@ router.post('/register',
         });
       })
       .catch((err) => {
-        req.flash('error', err.message);
+        req.flash('error', `An error has occured: ${err.message}`);
         res.redirect('/user/register');
       });
   });
@@ -129,7 +129,7 @@ router.post('/forgot',
           },
           (err) => {
             if (err) {
-              req.flash('error', err.message);
+              req.flash('error', `An error has occured: ${err.message}`);
               return res.redirect('/');
             }
             req.flash('success', `The email with a link has been sent. It will be active for one hour Token is ${token}`);
@@ -137,7 +137,7 @@ router.post('/forgot',
           });
       }
     } catch (err) {
-      req.flash('error', err.message);
+      req.flash('error', `An error has occured: ${err.message}`);
       return res.redirect('/');
     }
   });

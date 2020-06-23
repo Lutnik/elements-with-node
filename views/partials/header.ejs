@@ -35,9 +35,9 @@
 <body>
   <% if (!currentUser) { %>
 	<nav class="navbar navbar-light justify-content-between py-0 px-1 pl-sm-2 pr-sm-3">
-    <a id="githubLink" class="navbar-brand m-0" href="https://github.com/Lutnik/elements-with-node" target="_blank">
-      <img class="img-fluid" src="/pic/GitHub-Mark-Light-64px.png" alt="Github"> 
-    </a> 
+    <a class="navbar-brand" id="logo" href="/elements">
+      <img class="rounded-pill" alt="Homepage logo" src="/favicon/apple-icon-60x60.png">
+    </a>
     <ul class="navbar px-0" style="list-style: none">
       <li class="nav-item dropdown">
       <button class="dropdown-toggle btn btn-success my-2 mx-1" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="loginButton">
@@ -76,9 +76,9 @@
   </script>
 <% } else { %>
   <nav class="navbar navbar-dark justify-content-between">
-    <a id="githubLink" class="navbar-brand m-0" href="https://github.com/Lutnik/elements-with-node" target="new">
-      <img class="img-fluid" src="/pic/GitHub-Mark-Light-64px.png" alt="Github"> 
-    </a> 
+    <a class="navbar-brand" id="logo" href="/elements">
+      <img class="rounded-pill" alt="Homepage logo" src="/favicon/apple-icon-60x60.png">
+    </a>
     <div>
       <span class="navbar-text mx-3 text-dark"> Welcome,  
         <a class="text-success" href="/user/details"><%= currentUser.username %> </a>
